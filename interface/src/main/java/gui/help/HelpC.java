@@ -20,7 +20,7 @@ public class HelpC {
 /*        if(topic==null) topic="Справка для Rtran.html";
         File f = new File("src/main/resources/help/Build html documentation/"+topic);*/
         if(topic==null) topic="Справка для Rtran.html";
-        File f = new File("gui\\code\\resources\\help\\doc1\\StartHelper.html");
+        File f = new File("interface\\src\\main\\resources\\help\\doc1\\StartHelper.html");
         if(f==null) System.out.println("Help file not Found ");
         else System.out.println("f = " + f.toURI().toString());
         webView.getEngine().load(f.toURI().toString());

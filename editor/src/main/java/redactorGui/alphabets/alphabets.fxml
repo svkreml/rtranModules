@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redactorGui.alphabets.alphabetsController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redactorGui.alphabets.alphabetsController">
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <TableView fx:id="alphabetsTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="syntermColumn" prefWidth="75.0" />
-                <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Обозначение" />
+                <TableColumn fx:id="syntermColumn" minWidth="0.0" prefWidth="19.0" />
+                <TableColumn fx:id="nameColumn" prefWidth="215.0" text="Обозначение" />
                   <TableColumn fx:id="shortNameColumn" prefWidth="75.0" text="Эквивалент" />
                   <TableColumn fx:id="valuesColumn" prefWidth="75.0" text="Символы" />
                   <TableColumn fx:id="commentsColumn" prefWidth="75.0" text="Комментарии" />
