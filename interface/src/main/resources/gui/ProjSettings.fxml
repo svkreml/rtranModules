@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="307.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProjSettingsC">
+   <children>
+      <ButtonBar layoutX="119.0" layoutY="180.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <buttons>
+          <Button mnemonicParsing="false" onAction="#Apply" text="Применить" />
+            <Button mnemonicParsing="false" onAction="#Quit" text="Закрыть" />
+        </buttons>
+      </ButtonBar>
+      <TextField fx:id="textField" layoutX="12.0" layoutY="316.0" />
+      <CheckBox fx:id="checkBox" layoutX="30.0" layoutY="159.0" mnemonicParsing="false" text="Лента из файла?" />
+      <CheckBox layoutX="30.0" layoutY="132.0" mnemonicParsing="false" text="Тестовый запуск" />
+      <RadioButton fx:id="radioConsole" layoutX="21.0" layoutY="27.0" mnemonicParsing="false" onAction="#setConsoleInput" selected="true" text="Данные из консоли">
+         <toggleGroup>
+            <ToggleGroup fx:id="radio" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="radioInputFiles" layoutX="21.0" layoutY="55.0" mnemonicParsing="false" onAction="#setFileInput" text="Данные из входных файлов" toggleGroup="$radio" />
+      <RadioButton fx:id="radioTestRun" layoutX="21.0" layoutY="85.0" mnemonicParsing="false" onAction="#setFileTest" text="Тестовый запуск" toggleGroup="$radio" />
+      <ChoiceBox fx:id="chooseFile" layoutX="33.0" layoutY="188.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>

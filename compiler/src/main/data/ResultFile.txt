@@ -1,0 +1,9 @@
+nullcounter: ct1; value: null
+counter: a; value: 42
+counter: b; value: 24
+table: tab; value: [{first=tabvalue}, {type=firstType}, {type=1.5type}, {type=secondType}]
+register: Register; value: null
+register: reg1; value: Hello World
+register: reg3; value: apple
+register: reg2; value: Hello World
+wagon: W1LeftName*W1RightName; value:[]
