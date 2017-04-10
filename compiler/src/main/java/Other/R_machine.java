@@ -216,7 +216,7 @@ public class R_machine extends Thread implements Runnable{
      * Метод для запуска РМашины без отладчика (простой прогон)
      * @throws InterruptedException
      */
-    public synchronized void simpleRun() throws InterruptedException {
+    public synchronized String simpleRun() throws InterruptedException {
         loop:while (true) {
             this.currenntStatement = null;
             this.currentCondition = null;
@@ -259,7 +259,68 @@ public class R_machine extends Thread implements Runnable{
                         this.setCurrentNumber(endNumber);
                     }
                     if(end){
-                        return;
+                        String newStr = "";
+                        Set<String> names = this.allStorage.storage.getMemories().keySet();
+                        for (String name : names) {
+                           newStr+=(this.allStorage.storage.getMemories().get(name))+"\n";
+                        }
+                        return newStr;
+                    }else {
+                        continue loop;
+                    }
+                }
+            }
+        }
+    }
+    public synchronized String simpleRun(TextArea textArea) throws InterruptedException {
+        loop:while (true) {
+            this.currenntStatement = null;
+            this.currentCondition = null;
+            String endNumber = null;
+            Arm firstArm = null;
+            HashMap<String, Arm> arms = this.allStorage.getStorage().arms;
+            if (currentNumber.getValue() == null) {
+                if (arms.containsKey("0")) {
+                    this.setCurrentNumber("0");
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.err.println("Невозможно обработать алгоритм без нулевой вершины");
+                    System.exit(-1);
+                }
+            }
+            firstArm = arms.get(currentNumber.getValue());
+            ArrayList<ArmLine> lines = firstArm.getLines();//обход ребер одной вершины ( в данном случае первой, т.е. с номером "0"
+            for (ArmLine line : lines) {
+                this.currentCondition = line.getCondition();
+                if (line.compare(this.tape)) { //Если условие в данном ребре истинно...
+                    endNumber = line.getEndArmNumber();
+                    for (Statement statement : line.getStatements()) { //выполнение всех выражений (операций) , перечисленных в ребре
+                        this.setCurrenntStatement(statement);
+                        statement.doStatement(storage, tape);
+                    }
+                    this.currenntStatement = null;
+                    this.currentCondition = null;
+                    char tapeCurrent = this.tape.readCurrent();
+                    if (tapeCurrent == '#') {
+                        Set<String> names = this.allStorage.storage.getMemories().keySet();
+                        for (String name : names) {
+                            System.out.println(this.allStorage.storage.getMemories().get(name));
+                        }
+                        this.end = true;
+                    } else {
+                        this.setCurrentNumber(endNumber);
+                    }
+                    if(end){
+                        String newStr = "";
+                        Set<String> names = this.allStorage.storage.getMemories().keySet();
+                        for (String name : names) {
+                            newStr+=(this.allStorage.storage.getMemories().get(name))+"\n";
+                        }
+                        return newStr;
                     }else {
                         continue loop;
                     }

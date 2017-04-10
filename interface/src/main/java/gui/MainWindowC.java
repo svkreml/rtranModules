@@ -224,7 +224,7 @@ public class MainWindowC {
         //lenta = "perfectapple#";
         try {
             StarterMain starterMain = new StarterMain(mainApp.getProjectR().getProjFile().getPath() + "\\program.rtran", debugType, lenta, this.mainApp.getPrimaryStage());
-            starterMain.start();
+//            starterMain.start();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (Exception e) {

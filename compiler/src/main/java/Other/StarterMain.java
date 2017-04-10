@@ -2,12 +2,14 @@ package Other;
 
 import XmlReader.AlgorithmReaderNew;
 import gui.window.makery.address.model.DebuggerRunner;
+import gui.window.makery.address.model.ProgramWindow;
 import javafx.stage.Stage;
 
 /**
  * Created by master on 20.03.2017.
  */
 public class StarterMain {
+
 
     /**
      *
@@ -47,7 +49,9 @@ public class StarterMain {
             Storage storage = new Storage(algorithmReader.arms, algorithmReader.memoryHashMap, algorithmReader.alphabetHashMap);
             AllStorage allStorage = new AllStorage(storage, new Tape(tape));
             R_machine r_machine = new R_machine(allStorage);
-            r_machine.simpleRun();
+            String result = r_machine.simpleRun();
+            ProgramWindow programWindow = new ProgramWindow(r_machine,result);
+            programWindow.start(this.stage);
             return "0";
         }else{
             DebuggerRunner debuggerRunner = new DebuggerRunner(this.filepath,this.tape, this.stage);
@@ -57,6 +61,7 @@ public class StarterMain {
     }
 
     public static void main(String[] args) throws Exception {
+//        ProgramWindow programWindow = new ProgramWindow(this.stage);
 //        StarterMain starterMain = new StarterMain("templateStrorageTest.xml",false,"perfectapple#",this.stage);
         StarterMain starterMain2 = new StarterMain("templateStrorageTest.xml",true,"perfectapple#");
         starterMain2.simpleStart();
