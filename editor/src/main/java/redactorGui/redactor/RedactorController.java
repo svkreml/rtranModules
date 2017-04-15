@@ -8,6 +8,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.TextAlignment;
+import org.apache.commons.lang3.StringUtils;
 import redactorGui.RedactorModule;
 import redactorGui.redactor.addNewLine.addNewLineController;
 import javafx.fxml.FXML;
@@ -80,6 +82,16 @@ public class RedactorController {
 
             Image imageDelete = new Image(Resources.getResource("ic_delete_black_24dp_1x.png").openStream());
             deleteButton.setGraphic(new ImageView(imageDelete));
+
+            String emptyMessage = "Здесь будут отображаться команды R-программы в табличном виде." + "\n";
+            emptyMessage += "Начать работу над R-программой рекомендуется с заполнения" + "\n";
+            emptyMessage += "описательной части (вкладки «Память» и «Синтермы»)." + "\n";
+
+            Label placeholder = new Label(emptyMessage);
+            placeholder.setTextAlignment(TextAlignment.CENTER);
+
+            commandTable.setPlaceholder(placeholder);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,8 +128,23 @@ public class RedactorController {
                 if(okClicked) {
                     redactorModule.getCommandData().add(row.getIndex(), tempCommand);
                 }
-                R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-                redactorModule.updateR_pro(updated);
+
+                try {
+                    R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+                    redactorModule.updateR_pro(updated);
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
+                    alert.setTitle("Неправильный порядок команд");
+                    alert.setHeaderText("Кажется, последовательность R-команд некорретна...");
+                    alert.setContentText("Добавление привело к тому, что на данный момент R-команды " +
+                            "расположены в неправильной последовательности. Во избежание ошибок времени выполнения, " +
+                            "рекомендуется удалить команду."
+                    );
+                    alert.showAndWait();
+                }
+
+
 
             });
 
@@ -128,8 +155,20 @@ public class RedactorController {
                 if(okClicked) {
                     redactorModule.getCommandData().add(row.getIndex() + 1, tempCommand);
                 }
-                R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-                redactorModule.updateR_pro(updated);
+                try {
+                    R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+                    redactorModule.updateR_pro(updated);
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
+                    alert.setTitle("Неправильный порядок команд");
+                    alert.setHeaderText("Кажется, последовательность R-команд некорретна...");
+                    alert.setContentText("Добавление привело к тому, что на данный момент R-команды " +
+                            "расположены в неправильной последовательности. Во избежание ошибок времени выполнения, " +
+                            "рекомендуется удалить команду."
+                    );
+                    alert.showAndWait();
+                }
 
             });
 
@@ -180,8 +219,23 @@ public class RedactorController {
                     event.setDropCompleted(true);
                     commandTable.getSelectionModel().select(dropIndex);
                     event.consume();
-                    R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-                    redactorModule.updateR_pro(updated);
+                    try {
+                        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+                        redactorModule.updateR_pro(updated);
+                    } catch (Exception e) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
+                        alert.setTitle("Неправильный порядок команд");
+                        alert.setHeaderText("Кажется, последовательность R-команд некорретна...");
+                        alert.setContentText("Перетаскивание привело к тому, что на данный момент R-команды " +
+                                "расположены в неправильной последовательности. Во избежание ошибок времени выполнения, " +
+                                "рекомендуется вернуть команду на ее прежнее место."
+                        );
+                        alert.showAndWait();
+                        commandTable.refresh();
+                        commandTable.refresh();
+                        commandTable.refresh();
+                    }
                 }
 
             });
@@ -195,12 +249,13 @@ public class RedactorController {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(RedactorModule.class.getClassLoader().getResource("redactor/addNewLine/addNewLine.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Редактирование команды");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
+            dialogStage.setResizable(false);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
@@ -225,6 +280,20 @@ public class RedactorController {
         int selectedIndex = commandTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             commandTable.getItems().remove(selectedIndex);
+            try {
+                R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+                redactorModule.updateR_pro(updated);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
+                alert.setTitle("Неправильный порядок команд");
+                alert.setHeaderText("Кажется, последовательность R-команд некорретна...");
+                alert.setContentText("Удаление команды привело к тому, что на данный момент R-команды " +
+                        "расположены в неправильной последовательности. Если есть возможность, " +
+                        "рекомендуется восстановить команду на ее прежнем месте."
+                );
+                alert.showAndWait();
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
@@ -233,10 +302,6 @@ public class RedactorController {
             alert.setContentText("Пожалуйста, выберите команду в таблице");
             alert.showAndWait();
         }
-
-        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-        redactorModule.updateR_pro(updated);
-
     }
 
     @FXML
@@ -247,8 +312,20 @@ public class RedactorController {
         if(okClicked) {
             redactorModule.getCommandData().add(tempCommand);
         }
-        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-        redactorModule.updateR_pro(updated);
+        try {
+            R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+            redactorModule.updateR_pro(updated);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
+            alert.setTitle("Неправильный порядок команд");
+            alert.setHeaderText("Кажется, последовательность R-команд некорретна...");
+            alert.setContentText("Добавление команды привело к тому, что на данный момент R-команды " +
+                    "расположены в неправильной последовательности. Во избежание ошибок времени выполнения, " +
+                    "рекомендуется удалить команду."
+            );
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -260,10 +337,24 @@ public class RedactorController {
             boolean okClicked = showCommandEditDialog(selectedCommand);
             if(okClicked) {
                 redactorModule.getCommandData().set(selectedIndex, selectedCommand);
-                //redactorModule.getCommandData().add(tempCommand);
             }
-            R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-            redactorModule.updateR_pro(updated);
+
+            try {
+                R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+                redactorModule.updateR_pro(updated);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
+                alert.setTitle("Неправильный порядок команд");
+                alert.setHeaderText("Кажется, последовательность R-команд некорретна...");
+                alert.setContentText("Редактирование команды привело к тому, что на данный момент R-команды " +
+                        "расположены в неправильной последовательности. Во избежание ошибок времени выполнения, " +
+                        "рекомендуется вернуть команду к ее прежнему состоянию."
+                );
+                alert.showAndWait();
+            }
+
+
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
@@ -272,18 +363,7 @@ public class RedactorController {
             alert.setContentText("Пожалуйста, выберите команду в таблице");
             alert.showAndWait();
         }
-
-//        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-//        redactorModule.updateR_pro(updated);
-
-//        Command selectedCommand = commandTable.getSelectionModel().getSelectedItem();
-//        System.out.println(selectedCommand.uslovieProperty().get());
-//        showCommandEditDialog(selectedCommand);
-//        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-//        redactorModule.updateR_pro(updated);
-
     }
-
 
     public void setRedactorModule(RedactorModule redactorModule) {
         this.redactorModule = redactorModule;

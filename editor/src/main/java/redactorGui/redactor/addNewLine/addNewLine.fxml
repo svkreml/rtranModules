@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ComboBox?>
@@ -11,20 +12,20 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="393.0" prefWidth="536.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redactorGui.redactor.addNewLine.addNewLineController">
+<AnchorPane pickOnBounds="false" prefHeight="393.0" prefWidth="509.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="redactorGui.redactor.addNewLine.addNewLineController">
    <children>
-      <GridPane layoutX="25.0" layoutY="14.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <GridPane layoutX="25.0" layoutY="14.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" percentWidth="35.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="65.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="-Infinity" prefHeight="200.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="50.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Метка" />
@@ -32,37 +33,39 @@
             <Label text="Линейные операторы" GridPane.rowIndex="2" />
             <Label text="Метка перехода" GridPane.rowIndex="3" />
             <Label text="Комментарии" GridPane.rowIndex="4" />
-            <TextField fx:id="metkaField" GridPane.columnIndex="1" />
-            <TextArea fx:id="commentsArea" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="193.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBox fx:id="metkaPerehodaField" editable="true" prefHeight="31.0" prefWidth="262.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="metkaField" promptText="Числовое значение" GridPane.columnIndex="1" />
+            <TextArea fx:id="commentsArea" prefWidth="382.0" promptText="Дополнительные комментарии" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets bottom="4.0" top="4.0" />
+               </GridPane.margin></TextArea>
             <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="82.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="10.0" prefWidth="64.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.0" minWidth="10.0" prefWidth="80.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="37.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="26.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="37.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ComboBox fx:id="linopFieldLeft" editable="true" prefHeight="31.0" prefWidth="118.0" />
-                  <ComboBox fx:id="linopFieldCenter" editable="true" prefHeight="31.0" prefWidth="84.0" GridPane.columnIndex="1" />
-                  <ComboBox fx:id="linopFieldRight" editable="true" prefHeight="31.0" prefWidth="111.0" GridPane.columnIndex="2" />
+                  <ComboBox fx:id="linopFieldLeft" editable="true" />
+                  <ComboBox fx:id="linopFieldCenter" editable="true" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="linopFieldRight" editable="true" GridPane.columnIndex="2" />
                </children>
             </GridPane>
             <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="37.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="26.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="37.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ComboBox fx:id="uslovieFieldLeft" editable="true" prefHeight="31.0" prefWidth="117.0" />
-                  <ComboBox fx:id="uslovieFieldCenter" editable="true" prefHeight="31.0" prefWidth="92.0" GridPane.columnIndex="1" />
-                  <ComboBox fx:id="uslovieFieldRight" editable="true" prefWidth="150.0" GridPane.columnIndex="2" />
+                  <ComboBox fx:id="uslovieFieldLeft" editable="true" />
+                  <ComboBox fx:id="uslovieFieldCenter" editable="true" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="uslovieFieldRight" editable="true" GridPane.columnIndex="2" />
                </children>
             </GridPane>
             <ButtonBar prefHeight="40.0" prefWidth="272.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
@@ -71,6 +74,7 @@
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Отмена" />
               </buttons>
             </ButtonBar>
+            <ComboBox fx:id="metkaPerehodaField" editable="true" prefHeight="31.0" prefWidth="463.0" promptText="Числовое значение" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </children>

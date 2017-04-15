@@ -36,7 +36,6 @@ public class addNewLineController {
     @FXML
     private TextField metkaField;
 
-    // TODO: 13.02.2017 разбить на 3 ComboBox'a
     @FXML
     private ComboBox uslovieFieldLeft;
 
@@ -45,8 +44,6 @@ public class addNewLineController {
 
     @FXML
     private ComboBox uslovieFieldRight;
-
-    //private ComboBox uslovieField;
 
     @FXML
     private ComboBox linopFieldLeft;
@@ -87,7 +84,7 @@ public class addNewLineController {
             }
         }
         for (alphabetRecord record : redactorModule.getAlphabetsData()) {
-            alphabetOptions.add(record.getName());
+            alphabetOptions.add(record.getShortName());
         }
 
         //predicateOptions.addAll(memoryOptions);
@@ -142,15 +139,17 @@ public class addNewLineController {
 
         linopFieldCenter.setItems(operatorOptions);
         TextFields.bindAutoCompletion(linopFieldCenter.getEditor(), linopFieldCenter.getItems());
-        funcOptions.add("sqrt()");
+        //funcOptions.add("sqrt()");
 
-        // TODO: 13.02.2017 добавить и в левую часть 
         funcOptions.add("FILE");
         funcOptions.add("CONSOLE");
         funcOptions.add("MEMORY");
 
         linopFieldRight.setItems(funcOptions);
         TextFields.bindAutoCompletion(linopFieldRight.getEditor(), linopFieldRight.getItems());
+
+        linopFieldLeft.getItems().addAll(funcOptions);
+        TextFields.bindAutoCompletion(linopFieldLeft.getEditor(), linopFieldLeft.getItems());
     }
 
     @FXML
@@ -227,7 +226,9 @@ public class addNewLineController {
             boolean uslovieRightEmpty = uslovieFieldRight.getValue() == null || uslovieFieldRight.getValue().toString().length() == 0;
 
             if (uslovieLeftEmpty && uslovieRightEmpty) {
+                command.setUslovieLeft("");
                 command.setUslovieCenter(uslovieFieldCenter.getValue().toString());
+                command.setUslovieRight("");
             } else {
                 command.setUslovieLeft(uslovieFieldLeft.getValue().toString());
                 command.setUslovieCenter(uslovieFieldCenter.getValue().toString());

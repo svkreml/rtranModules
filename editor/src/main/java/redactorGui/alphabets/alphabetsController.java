@@ -2,17 +2,16 @@ package redactorGui.alphabets;
 
 import com.google.common.io.Resources;
 import javafx.collections.FXCollections;
-import javafx.scene.control.Button;
+import javafx.collections.ObservableList;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.TextAlignment;
 import redactorGui.RedactorModule;
 import redactorGui.alphabets.addNewAlphabet.addNewAlphabetController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -54,10 +53,6 @@ public class alphabetsController {
 
     private RedactorModule redactorModule;
 
-    public void clear() {
-        alphabetsTable.setItems(FXCollections.observableArrayList());
-    }
-
     @FXML
     private void initialize() {
         try {
@@ -69,6 +64,15 @@ public class alphabetsController {
 
             Image imageDelete = new Image(Resources.getResource("ic_delete_black_24dp_1x.png").openStream());
             deleteButton.setGraphic(new ImageView(imageDelete));
+
+            String emptyMessage = "Здесь будут отображаться стандартные и пользовательские" + "\n";
+            emptyMessage += "алфавиты R-машины.";
+
+            Label placeholder = new Label(emptyMessage);
+            placeholder.setTextAlignment(TextAlignment.CENTER);
+
+            alphabetsTable.setPlaceholder(placeholder);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,22 +89,25 @@ public class alphabetsController {
         alphabetsTable.setItems(redactorModule.getAlphabetsData());
     }
 
-    private boolean showAlphabetEditDialog(alphabetRecord alphabet) {
+
+    private boolean showAlphabetEditDialog(alphabetRecord alphabet, boolean checkUniqueness) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(RedactorModule.class.getClassLoader().getResource("alphabets/addNewAlphabet/addNewAlphabet.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Редактирование синтерма");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            //dialogStage.initOwner(redactorModule.getPrimaryStage());
+            dialogStage.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
+            dialogStage.setResizable(false);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
             addNewAlphabetController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setRecord(alphabet);
+            controller.setCheckUniqueness(checkUniqueness);
             controller.setRedactorModule(redactorModule);
 
             dialogStage.showAndWait();
@@ -127,8 +134,18 @@ public class alphabetsController {
             alert.showAndWait();
         }
 
-        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-        redactorModule.updateR_pro(updated);
+        /**
+         * Понятия не имею, какие при этой операции могут быть ошибки
+         */
+
+        try {
+            R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+            redactorModule.updateR_pro(updated);
+        } catch (Exception e) {
+            return;
+        }
+
+
 
     }
 
@@ -136,25 +153,50 @@ public class alphabetsController {
     private void handleAddNewAlphabet() {
         alphabetRecord tempRecord = new alphabetRecord();
         //Command selectedCommand = commandTable.getSelectionModel().getSelectedItem();
-        boolean okClicked = showAlphabetEditDialog(tempRecord);
+        boolean okClicked = showAlphabetEditDialog(tempRecord, true);
         if(okClicked) {
             redactorModule.getAlphabetsData().add(tempRecord);
         }
 
-        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-        redactorModule.updateR_pro(updated);
+        /**
+         * Понятия не имею, какие при этой операции могут быть ошибки
+         */
+
+        try {
+            R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+            redactorModule.updateR_pro(updated);
+        } catch (Exception e) {
+            return;
+        }
 
     }
 
     @FXML
     private void handleEditRecord() {
 
-        alphabetRecord selectedRecord = alphabetsTable.getSelectionModel().getSelectedItem();
-        showAlphabetEditDialog(selectedRecord);
+        int selectedIndex = alphabetsTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            alphabetRecord selectedRecord = alphabetsTable.getSelectionModel().getSelectedItem();
+            showAlphabetEditDialog(selectedRecord, false);
 
-        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-        redactorModule.updateR_pro(updated);
+            /**
+             * Понятия не имею, какие при этой операции могут быть ошибки
+             */
 
+            try {
+                R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+                redactorModule.updateR_pro(updated);
+            } catch (Exception e) {
+                return;
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
+            alert.setTitle("Ничего не выбрано");
+            alert.setHeaderText("Не был выбран ни один алфавит");
+            alert.setContentText("Пожалуйста, выберите алфавит в таблице");
+            alert.showAndWait();
+        }
     }
     
 }

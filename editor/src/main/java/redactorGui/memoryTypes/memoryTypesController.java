@@ -2,17 +2,15 @@ package redactorGui.memoryTypes;
 
 import com.google.common.io.Resources;
 import javafx.collections.FXCollections;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.TextAlignment;
 import redactorGui.memoryTypes.addNewMemoryType.addNewMemoryTypeController;
 import redactorGui.RedactorModule;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -63,6 +61,15 @@ public class memoryTypesController {
 
             Image imageDelete = new Image(Resources.getResource("ic_delete_black_24dp_1x.png").openStream());
             deleteButton.setGraphic(new ImageView(imageDelete));
+
+            String emptyMessage = "Здесь будут отображаться абстрактные памяти R-машины," + "\n";
+            emptyMessage += "заданные пользователем.";
+
+            Label placeholder = new Label(emptyMessage);
+            placeholder.setTextAlignment(TextAlignment.CENTER);
+
+            memoryTypesTable.setPlaceholder(placeholder);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,15 +84,16 @@ public class memoryTypesController {
         memoryTypesTable.setItems(redactorModule.getMemoryTypesData());
     }
 
-    private boolean showMemoryEditDialog(memoryTypeRecord memoryRecord) {
+    private boolean showMemoryEditDialog(memoryTypeRecord memoryRecord, boolean checkUniqueness) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(RedactorModule.class.getClassLoader().getResource("memoryTypes/addNewMemoryType/addNewMemoryType.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Редактирование памяти");
             dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setResizable(false);
             dialogStage.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
@@ -119,8 +127,16 @@ public class memoryTypesController {
             alert.showAndWait();
         }
 
-        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-        redactorModule.updateR_pro(updated);
+        /**
+         * Понятия не имею, какие при этой операции могут быть ошибки
+         */
+
+        try {
+            R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+            redactorModule.updateR_pro(updated);
+        } catch (Exception e) {
+            return;
+        }
 
     }
 
@@ -128,25 +144,51 @@ public class memoryTypesController {
     private void handleAddNewMemoryType() {
         memoryTypeRecord tempRecord = new memoryTypeRecord();
         //Command selectedCommand = commandTable.getSelectionModel().getSelectedItem();
-        boolean okClicked = showMemoryEditDialog(tempRecord);
+        boolean okClicked = showMemoryEditDialog(tempRecord, true);
         if(okClicked) {
             redactorModule.getMemoryTypesData().add(tempRecord);
         }
 
-        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-        redactorModule.updateR_pro(updated);
+        /**
+         * Понятия не имею, какие при этой операции могут быть ошибки
+         */
+
+        try {
+            R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+            redactorModule.updateR_pro(updated);
+        } catch (Exception e) {
+            return;
+        }
 
     }
 
     @FXML
     private void handleEditRecord() {
 
-        memoryTypeRecord selectedRecord = memoryTypesTable.getSelectionModel().getSelectedItem();
-        showMemoryEditDialog(selectedRecord);
+        int selectedIndex = memoryTypesTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            memoryTypeRecord selectedRecord = memoryTypesTable.getSelectionModel().getSelectedItem();
+            showMemoryEditDialog(selectedRecord, false);
 
-        R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
-        redactorModule.updateR_pro(updated);
+            /**
+             * Понятия не имею, какие при этой операции могут быть ошибки
+             */
 
+            try {
+                R_pro updated = new R_pro("1.0", redactorModule.getR_pro().getProgname(), redactorModule.getDescriptive_part(), redactorModule.getAlg());
+                redactorModule.updateR_pro(updated);
+            } catch (Exception e) {
+                return;
+            }
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());
+            alert.setTitle("Ничего не выбрано");
+            alert.setHeaderText("Не был выбран ни один тип памяти");
+            alert.setContentText("Пожалуйста, выберите тип памяти в таблице");
+            alert.showAndWait();
+        }
     }
 
 }

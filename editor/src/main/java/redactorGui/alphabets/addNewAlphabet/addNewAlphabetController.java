@@ -42,6 +42,9 @@ public class addNewAlphabetController {
     private boolean okClicked = false;
     private RedactorModule redactorModule;
 
+
+    private boolean checkUniqueness;
+
     @FXML
     private void initialize() {
         try {
@@ -71,6 +74,10 @@ public class addNewAlphabetController {
         commentsArea.setText(alphabet.getComments());
     }
 
+    public void setCheckUniqueness(boolean checkUniqueness) {
+        this.checkUniqueness = checkUniqueness;
+    }
+
     public boolean isOkClicked() {
         return okClicked;
     }
@@ -96,9 +103,11 @@ public class addNewAlphabetController {
     private boolean isInputValid() {
         String errorMessage = "";
 
-        for (alphabetRecord record : redactorModule.getAlphabetsData()) {
-            if(nameField.getText().equals(record.getName()) || shortNameField.getText().equals(record.getShortName())) {
-                errorMessage += "Синтерм с таким именем уже существует!\n";
+        if (checkUniqueness) {
+            for (alphabetRecord record : redactorModule.getAlphabetsData()) {
+                if(nameField.getText().equals(record.getName()) || shortNameField.getText().equals(record.getShortName())) {
+                    errorMessage += "Синтерм с таким именем уже существует!\n";
+                }
             }
         }
 

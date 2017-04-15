@@ -69,6 +69,7 @@ public class RedactorModule {
         commandData.clear();
         memoryTypesData.clear();
         alphabetsData.clear();
+        setDefaultAlphabets();
     }
 
     public void load(File file) {
@@ -99,6 +100,32 @@ public class RedactorModule {
     public RedactorModule() {
         r_pro = new R_pro();
         r_pro.setProgname("Без названия");
+
+        setDefaultAlphabets();
+    }
+
+    private void setDefaultAlphabets() {
+        alphabetRecord russian = new alphabetRecord();
+        russian.setName("русский алфавит");
+        russian.setShortName("рус");
+        russian.setValues("АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя");
+
+        alphabetRecord english = new alphabetRecord();
+        english.setName("английский алфавит");
+        english.setShortName("англ");
+        english.setValues("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
+
+        alphabetRecord numbers = new alphabetRecord();
+        numbers.setName("цифры");
+        numbers.setShortName("цфр");
+        numbers.setValues("0123456789");
+
+        alphabetRecord punctuationMarks = new alphabetRecord();
+        punctuationMarks.setName("знаки пунктуации");
+        punctuationMarks.setShortName("пункт");
+        punctuationMarks.setValues(".,;:!?‐-‒–—―[](){}⟨⟩„“«»“”‘’‹›\"");
+
+        alphabetsData.setAll(russian, english, numbers, punctuationMarks);
     }
 
     public ObservableList<Command> getCommandData() {
@@ -290,7 +317,7 @@ public class RedactorModule {
         return operation;
     }
 
-    public Alg getAlg() {
+    public Alg getAlg() throws Exception {
         Alg alg = new Alg();
         int curArm = -1;
         int curEdge = 0;
