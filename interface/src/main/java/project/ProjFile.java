@@ -23,6 +23,15 @@ public class ProjFile {
     String path;
     @JacksonXmlProperty()
     String lentaPath;
+
+    public String getInputPath() {
+        return inputPath;
+    }
+
+    public void setInputPath(String inputPath) {
+        this.inputPath = inputPath;
+    }
+
     @JacksonXmlProperty()
     String inputPath;
 

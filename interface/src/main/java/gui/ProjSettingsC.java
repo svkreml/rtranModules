@@ -30,6 +30,8 @@ public class ProjSettingsC {
     public RadioButton radioConsole;
     @FXML
     public ChoiceBox chooseFile;
+    @FXML
+    public ChoiceBox chooseInputFile;
     Stage stage;
     ProjFile projFile;
 
@@ -49,9 +51,10 @@ public class ProjSettingsC {
         //if(projFile.getLentaPath()==null)projFile.setLentaPath("Тестовые данные");
         if (!checkRadio().equals("console")) {
             setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\" + checkRadio());
-
+            setChooseInputFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\" + checkRadio());
         } else {
             chooseFile.setDisable(true);
+            chooseInputFile.setDisable(true);
         }
     }
 
@@ -88,7 +91,7 @@ public class ProjSettingsC {
         if(getLentaPath().equals("")) setRadio("console");
         projFile.setRunType(checkRadio());
         projFile.setLentaPath(getLentaPath());
-
+        projFile.setInputPath(getInputPath());
         projFile.save();
     }
 
@@ -104,6 +107,7 @@ public class ProjSettingsC {
 
     public void setConsoleInput(ActionEvent actionEvent) {
         chooseFile.setDisable(true);
+        chooseInputFile.setDisable(true);
     }
 
     public void setFileInput(ActionEvent actionEvent) {
@@ -132,8 +136,23 @@ public class ProjSettingsC {
             if(s.equals(projFile.getLentaPath()))
                 chooseFile.getSelectionModel().select(s);
         }
-
-
+    }
+    void setChooseInputFile(String file) {
+        // if(file==null) file="Тестовые данные";
+        files = FXCollections.observableArrayList();
+        chooseInputFile.setDisable(false);
+        try {
+            Files.list(Paths.get(file)).forEach(path -> {
+                files.add(path.getFileName().toString());
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        chooseInputFile.setItems(files);
+        for (String s : files) {
+            if(s.equals(projFile.getInputPath()))
+                chooseInputFile.getSelectionModel().select(s);
+        }
     }
 
     String getLentaPath() {
@@ -142,6 +161,12 @@ public class ProjSettingsC {
             s = "";
         } else s = chooseFile.getSelectionModel().getSelectedItem().toString();
         return s;
-
+    }
+    String getInputPath() {
+        String s;
+        if (chooseInputFile.getSelectionModel().getSelectedItem() == null) {
+            s = "";
+        } else s = chooseInputFile.getSelectionModel().getSelectedItem().toString();
+        return s;
     }
 }
