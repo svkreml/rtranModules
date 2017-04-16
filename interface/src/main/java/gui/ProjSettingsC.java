@@ -51,10 +51,10 @@ public class ProjSettingsC {
         //if(projFile.getLentaPath()==null)projFile.setLentaPath("Тестовые данные");
         if (!checkRadio().equals("console")) {
             setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\" + checkRadio());
-            setChooseInputFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\" + checkRadio());
+            setChooseInputFile();
         } else {
             chooseFile.setDisable(true);
-            chooseInputFile.setDisable(true);
+           // chooseInputFile.setDisable(true);
         }
     }
 
@@ -107,7 +107,7 @@ public class ProjSettingsC {
 
     public void setConsoleInput(ActionEvent actionEvent) {
         chooseFile.setDisable(true);
-        chooseInputFile.setDisable(true);
+      //  chooseInputFile.setDisable(true);
     }
 
     public void setFileInput(ActionEvent actionEvent) {
@@ -137,10 +137,11 @@ public class ProjSettingsC {
                 chooseFile.getSelectionModel().select(s);
         }
     }
-    void setChooseInputFile(String file) {
+    void setChooseInputFile() {
         // if(file==null) file="Тестовые данные";
+        String file = mainApp.getProjectR().getProjFile().getPath().toString()+"\\Входные данные";
         files = FXCollections.observableArrayList();
-        chooseInputFile.setDisable(false);
+        //chooseInputFile.setDisable(false);
         try {
             Files.list(Paths.get(file)).forEach(path -> {
                 files.add(path.getFileName().toString());
