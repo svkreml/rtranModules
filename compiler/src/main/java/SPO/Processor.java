@@ -38,7 +38,7 @@ public class Processor {
         }
         if(str.contains("+")||str.contains("-")||str.contains("*")||str.contains("/")) {
             Lexer lex = new Lexer(str);
-            ArrayList<Token> tokens = lex.strToTokens();
+            ArrayList<Token> tokens = lex.strToTokens(memories);
             Parser parser = new Parser(tokens);
             ExprNode e = parser.expression();
             WalkTree walkTree = new WalkTree();

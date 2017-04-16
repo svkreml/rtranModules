@@ -8,6 +8,12 @@ public class Token {
     //int value;
     int value;
     char c;
+    String str;
+
+    public Token(String str) {
+        this.str = str;
+        this.type = TokenType.VAR;
+    }
 
     public Token(int value) {
         this.type = TokenType.NUMBER;
