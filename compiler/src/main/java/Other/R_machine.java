@@ -30,6 +30,7 @@ public class R_machine extends Thread implements Runnable{
     }
 
     Tape tape;
+    public static String file;
     int i=0;
 //    private Stage primaryStage;
 //    private Pane rootLayout;
@@ -218,9 +219,10 @@ public class R_machine extends Thread implements Runnable{
      * Метод для запуска РМашины без отладчика (простой прогон)
      * @throws InterruptedException
      */
-    public synchronized String simpleRun(ProgramWindow window, Stage stage) throws InterruptedException {
+    public synchronized String simpleRun(ProgramWindow window, String file, Stage stage) throws InterruptedException {
         this.window = window;
         this.stage = stage;
+        this.file = file;
         this.window.start(this.stage);
         loop:while (true) {
             this.currenntStatement = null;

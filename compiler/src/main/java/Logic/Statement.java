@@ -20,6 +20,7 @@ public class Statement {
     public static final String FILE = "FILE";
     public static final String CONSOLE = "CONSOLE";
     public static final String MEMORY = "MEMORY";
+    public static final String COLUMN = "COLUMN";
 //    private TextArea textArea;
 //    private TextField textField;
 
@@ -176,9 +177,19 @@ public class Statement {
             memories.get(varName).addNewStr(index, value);
     }
 
+    public void add(HashMap<String, Memory> memories, String varName) {
+        if(findTable(varName, memories)!=null)
+            memories.get(varName).addNewStr();
+    }
+
     public void insert(HashMap<String, Memory> memories, String varName, String index, String value) {
         if(findTable(varName, memories)!=null)
             memories.get(varName).insertNewStr(index, value);
+    }
+
+    public void insert(HashMap<String, Memory> memories, String varName) {
+        if(findTable(varName, memories)!=null)
+            memories.get(varName).insertNewStr();
     }
 
     public void searchTrue(HashMap<String, Memory> memories, String varName, String value) {
@@ -309,10 +320,10 @@ public class Statement {
                     for(String name:names){
                         buftext += storage.getMemories().get(name).toString() + "\n";
                     }
-                    FileWorker.appendDump("data/ResultFile.txt", buftext);
+                    FileWorker.appendDump(R_machine.file, buftext);
                 } else {
                     try {
-                        FileWorker.appendData("D:\\Java_programs\\rtranModules3\\compiler\\src\\main\\data\\ResultFile.txt", rightArg, read(rightArg, storage.getMemories()));
+                        FileWorker.appendData(R_machine.file, rightArg, read(rightArg, storage.getMemories()));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -322,7 +333,7 @@ public class Statement {
                     clear(this.leftArg,storage.getMemories());
                 }
                 if(Objects.equals(this.rightArg, FILE)) {
-                    String buffer = FileWorker.searchValueByTarget("data/ResultFile.txt", leftArg);
+                    String buffer = FileWorker.searchValueByTarget(R_machine.file, leftArg);
 //                    R_machine.window.getTextArea().appendText(buffer+"\n");
                     System.out.println(buffer);
                     write(this.leftArg,buffer,storage.getMemories());
@@ -352,10 +363,10 @@ public class Statement {
                         buftext += storage.getMemories().get(name).toString() + "\n";
                     }
                     System.out.println(buftext);
-                    FileWorker.appendDump("data/ResultFile.txt", buftext);
+                    FileWorker.appendDump(R_machine.file, buftext);
                 } else {
                     try {
-                        FileWorker.appendData("data/ResultFile.txt", leftArg, read(leftArg, storage.getMemories()));
+                        FileWorker.appendData(R_machine.file, leftArg, read(leftArg, storage.getMemories()));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -365,7 +376,7 @@ public class Statement {
                     clear(rightArg,storage.getMemories());
                 }
                 if(Objects.equals(this.leftArg, FILE)) {
-                    String buffer = FileWorker.searchValueByTarget("data/ResultFile.txt", this.leftArg);
+                    String buffer = FileWorker.searchValueByTarget(R_machine.file, this.leftArg);
                     write(this.leftArg,buffer,storage.getMemories());
                 } else if (Objects.equals(this.leftArg, CONSOLE)) {
                     R_machine.window.getInputButton().setOnMouseClicked(event -> {
@@ -387,28 +398,39 @@ public class Statement {
         } else if(String.valueOf(this.operator.middle).contains("~=")) {
             searchFalse(storage.getMemories(),leftArg,rightArg);
         } else if(String.valueOf(this.operator.middle).contains("^=")) {
-            String tablename = null;
-            String index = null;
-            for(int i = 0; i < leftArg.length(); i++) {
-                if(leftArg.charAt(i) == '.') {
-                    tablename = leftArg.substring(0,i);
-                    index = leftArg.substring(i+1, leftArg.length());
-                    break;
-                }
-            }
-            insert(storage.getMemories(),tablename,index, rightArg);
+//            String tablename = null;
+//            String index = null;
+//            for(int i = 0; i < leftArg.length(); i++) {
+//                if(leftArg.charAt(i) == '.') {
+//                    tablename = leftArg.substring(0,i);
+//                    index = leftArg.substring(i+1, leftArg.length());
+//                    break;
+//                }
+//            }
+//            insert(storage.getMemories(),tablename,index, rightArg);
+            String tablename = leftArg;
+            insert(storage.getMemories(),tablename);
         } else if(String.valueOf(this.operator.middle).contains(".=")) {
-            String tablename = null;
-            String index = null;
-            for(int i = 0; i < leftArg.length(); i++) {
-                if(leftArg.charAt(i) == '.') {
-                    tablename = leftArg.substring(0,i);
-                    index = leftArg.substring(i+1, leftArg.length());
-                    break;
-                }
-            }
-            add(storage.getMemories(),tablename,index, rightArg);
+//            String tablename = null;
+//            String index = null;
+//            for(int i = 0; i < leftArg.length(); i++) {
+//                if(leftArg.charAt(i) == '.') {
+//                    tablename = leftArg.substring(0,i);
+//                    index = leftArg.substring(i+1, leftArg.length());
+//                    break;
+//                }
+//            }
+//            add(storage.getMemories(),tablename,index, rightArg);
+            String tablename = leftArg;
+            add(storage.getMemories(),tablename);
         }
+//        else if(String.valueOf(this.operator.middle).contains(":=") && String.valueOf(this.rightArg).equals(COLUMN)) {
+//            String tablename = leftArg;
+//            add(storage.getMemories(),tablename);
+//        } else if(String.valueOf(this.operator.middle).contains(":") && String.valueOf(this.rightArg).equals(COLUMN)) {
+//            String tablename = leftArg;
+//            insert(storage.getMemories(),tablename);
+//        }
     }
     //    }
     public String toString(){

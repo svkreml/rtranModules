@@ -209,9 +209,11 @@ public class MainWindowC {
 
     private void runM(boolean debugType) {
         String lenta = null;
+        String file = null;
         if (!mainApp.getProjectR().getProjFile().getRunType().equals("console")) {
             try {
                 lenta = Explorer.readFile(Paths.get(mainApp.getProjectR().getProjFile().getPath().toString(),mainApp.getProjectR().getProjFile().getRunType(), mainApp.getProjectR().getProjFile().getLentaPath()), Charset.defaultCharset());
+                file = String.valueOf(Paths.get(mainApp.getProjectR().getProjFile().getPath().toString(),mainApp.getProjectR().getProjFile().getRunType(), mainApp.getProjectR().getProjFile().getInputPath()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -223,7 +225,7 @@ public class MainWindowC {
         //костыль
         //lenta = "perfectapple#";
         try {
-            StarterMain starterMain = new StarterMain(mainApp.getProjectR().getProjFile().getPath() + "\\program.rtran", debugType, lenta, this.mainApp.getPrimaryStage());
+            StarterMain starterMain = new StarterMain(mainApp.getProjectR().getProjFile().getPath() + "\\program.rtran", debugType, lenta, file, this.mainApp.getPrimaryStage());
 //            starterMain.start();
         } catch (InterruptedException e) {
             e.printStackTrace();

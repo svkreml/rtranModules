@@ -23,9 +23,20 @@ public class Counter implements Memory {
     }
 
     @Override
+    public boolean addNewStr() {
+        return false;
+    }
+
+    @Override
     public boolean insertNewStr(String index, String value) {
         return false;
     }
+
+    @Override
+    public boolean insertNewStr() {
+        return false;
+    }
+
     @Override
     public boolean searchTrue(String value) {
         return false;

@@ -109,6 +109,14 @@ public class Table implements Memory {
         this.table.get(strnumber).put(index, value);
         return (this.table.get(strnumber).get(index) != null);
     }
+
+    @Override
+    public boolean addNewStr() {
+        this.strnumber++;
+        this.table.add(strnumber,new HashMap<String,String>());
+        return true;
+    }
+
     @Override
     public boolean insertNewStr(String index, String value) {
         if(strnumber == 0) {
@@ -121,6 +129,18 @@ public class Table implements Memory {
         this.table.get(strnumber).put(index, value);
         return (this.table.get(strnumber).get(index) != null);
     }
+
+    @Override
+    public boolean insertNewStr() {
+        if(strnumber == 0) {
+            this.table.add(0,new HashMap<String,String>());
+            return true;
+        }
+        this.strnumber--;
+        this.table.add(strnumber,colnames);
+        return true;
+    }
+
     @Override
     public boolean searchTrue(String value) {
 //        this.write();

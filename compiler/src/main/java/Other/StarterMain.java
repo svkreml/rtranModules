@@ -23,13 +23,15 @@ public class StarterMain {
     boolean debugType;
     String tape;
     Stage stage;
+    String file;
 
 
-    public StarterMain(String filepath, boolean debugType, String tape, Stage stage) throws Exception {
+    public StarterMain(String filepath, boolean debugType, String tape, String file, Stage stage) throws Exception {
         this.stage = stage;
         this.filepath = filepath;
         this.debugType = debugType;
         this.tape = tape;
+        this.file = file;
         start();
     }
     public StarterMain(String filepath, boolean debugType, String tape) throws Exception {
@@ -51,7 +53,7 @@ public class StarterMain {
             AllStorage allStorage = new AllStorage(storage, new Tape(tape));
             R_machine r_machine = new R_machine(allStorage);
             ProgramWindow window = new ProgramWindow();
-            r_machine.simpleRun(window, this.stage);
+            r_machine.simpleRun(window, this.file, this.stage);
 //            programWindow.start(this.stage);
             return "0";
         }else{

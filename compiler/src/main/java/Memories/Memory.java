@@ -18,7 +18,11 @@ public interface Memory {
 //    }
     boolean addNewStr(String index, String value);
 
+    boolean addNewStr();
+
     boolean insertNewStr(String index, String value);
+
+    boolean insertNewStr();
 
     boolean searchTrue(String value);
 
