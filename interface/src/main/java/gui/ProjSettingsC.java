@@ -49,9 +49,10 @@ public class ProjSettingsC {
         //checkBox.setSelected(projFile.isLenta());
         setRadio(projFile.getRunType());
         //if(projFile.getLentaPath()==null)projFile.setLentaPath("Тестовые данные");
+        setChooseInputFile();
         if (!checkRadio().equals("console")) {
             setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\" + checkRadio());
-            setChooseInputFile();
+
         } else {
             chooseFile.setDisable(true);
            // chooseInputFile.setDisable(true);
