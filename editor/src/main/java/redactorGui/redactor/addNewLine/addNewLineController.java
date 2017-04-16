@@ -260,8 +260,6 @@ public class addNewLineController {
         String errorMessage = "";
 
         boolean metkaNotEmpty = !(metkaField.getText() == null || metkaField.getText().length() == 0);
-        
-        //boolean uslovieNotEmpty = !(uslovieField.getValue().toString() == null || uslovieField.getValue().toString().length() == 0);
 
         boolean uslovieLeftNotEmpty = !(uslovieFieldLeft.getValue() == null || uslovieFieldLeft.getValue().toString().length() == 0);
         boolean uslovieCenterNotEmpty = !(uslovieFieldCenter.getValue() == null || uslovieFieldCenter.getValue().toString().length() == 0);
@@ -291,11 +289,6 @@ public class addNewLineController {
         }
 
         if(errorMessage.length() == 0) {
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//            alert.setTitle("Информация о команде");
-//            alert.setHeaderText("Флаг: ");
-//            alert.setContentText(command.getFlag().toString());
-//            alert.showAndWait();
             return true;
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

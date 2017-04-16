@@ -3,6 +3,7 @@ package redactorGui;
 import com.google.common.io.Resources;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
@@ -307,6 +308,8 @@ public class RedactorModule {
         knownOperators.add("==");
         knownOperators.add("!=");
 
+        //boolean operatorDetected = false;
+
         for(String oper : knownOperators) {
             if (linopCenter.equals(oper)) {
                 left = new Left(linopLeft);
@@ -315,10 +318,20 @@ public class RedactorModule {
                 // Правая часть (содержащая выражение) не будет содержать в себе пробелов:
 
                 right = new Right(StringUtils.remove(linopRight, " "));
-                break;
+                operation = new Operation(left, operator, right);
+                return operation;
             }
         }
-        operation = new Operation(left, operator, right);
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(getRedactorPane().getScene().getWindow());
+        alert.setTitle("Ошибка в линейном операторе");
+        alert.setHeaderText("По всей видимости, такого линейного оператора не существует");
+        alert.setContentText("Во избежание ошибок времени выполнения, исправьте линейный оператор.");
+        alert.showAndWait();
+
+
+        operation = new Operation(new Left(linopLeft), linopCenter, new Right(linopRight));
         return operation;
     }
 
