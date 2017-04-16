@@ -43,12 +43,16 @@ public class ProjSettingsC {
 
     public void init(MainApp mainApp) {
         this.mainApp = mainApp;
-        textField.setText(projFile.getLentaPath());
-        checkBox.setSelected(projFile.isLenta());
+        //textField.setText(projFile.getLentaPath());
+        //checkBox.setSelected(projFile.isLenta());
         setRadio(projFile.getRunType());
         //if(projFile.getLentaPath()==null)projFile.setLentaPath("Тестовые данные");
-        if(!checkRadio().equals("console"))
-            setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\"+checkRadio());
+        if (!checkRadio().equals("console")) {
+            setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\" + checkRadio());
+
+        } else {
+            chooseFile.setDisable(true);
+        }
     }
 
     public String checkRadio() {
@@ -62,15 +66,14 @@ public class ProjSettingsC {
     }
 
     public void setRadio(String type) {
-
-        if (type==null || type.equals("Тестовые данные")) {
-            radioTestRun.setSelected(true);
-            folder = "Тестовые данные";
-        } else if (type.equals("console")) {
+        if (type == null || type.equals("console")) {
             radioConsole.setSelected(true);
         } else if (type.equals("Входные данные")) {
             radioInputFiles.setSelected(true);
             folder = "Входные данные";
+        } else if (type.equals("Тестовые данные")) {
+            radioTestRun.setSelected(true);
+            folder = "Тестовые данные";
         }
     }
 
@@ -79,10 +82,13 @@ public class ProjSettingsC {
     }
 
     public void Apply(ActionEvent actionEvent) {
-       // if(checkBox.isSelected())
-            projFile.setLentaPath(getLentaPath());
-        projFile.setLenta(checkBox.isSelected());
+        // if(checkBox.isSelected())
+
+        // projFile.setLenta(checkBox.isSelected());
+        if(getLentaPath().equals("")) setRadio("console");
         projFile.setRunType(checkRadio());
+        projFile.setLentaPath(getLentaPath());
+
         projFile.save();
     }
 
@@ -111,8 +117,8 @@ public class ProjSettingsC {
     }
 
     void setChooseFile(String file) {
-       // if(file==null) file="Тестовые данные";
-        files= FXCollections.observableArrayList();
+        // if(file==null) file="Тестовые данные";
+        files = FXCollections.observableArrayList();
         chooseFile.setDisable(false);
         try {
             Files.list(Paths.get(file)).forEach(path -> {
@@ -122,8 +128,20 @@ public class ProjSettingsC {
             e.printStackTrace();
         }
         chooseFile.setItems(files);
+        for (String s : files) {
+            if(s.equals(projFile.getLentaPath()))
+                chooseFile.getSelectionModel().select(s);
+        }
+
+
     }
-    String getLentaPath(){
-        return folder+"\\"+chooseFile.getSelectionModel().getSelectedItem().toString();
+
+    String getLentaPath() {
+        String s;
+        if (chooseFile.getSelectionModel().getSelectedItem() == null) {
+            s = "";
+        } else s = chooseFile.getSelectionModel().getSelectedItem().toString();
+        return s;
+
     }
 }
