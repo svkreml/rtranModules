@@ -1,5 +1,7 @@
 package xml;
 
+import com.ctc.wstx.exc.WstxEOFException;
+import com.ctc.wstx.exc.WstxUnexpectedCharException;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import javafx.scene.control.Alert;
@@ -11,6 +13,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 /**
  * Created by Alex on 28.11.2016.
@@ -47,19 +50,22 @@ public class Loader {
             module.setDefaultUseWrapper(false);
             XmlMapper xmlMapper = new XmlMapper(module);
             try {
-                String program = readFile(location.toPath(),Charset.defaultCharset());
+                BufferedReader buffer = new BufferedReader(new FileReader(location));
+                String program = buffer.lines().collect(Collectors.joining());
+                System.out.println(program);
                 readed = xmlMapper.readValue(program, R_pro.class);
             } catch (IOException e) {
-                Alert emptyFileErrorWindow = new Alert(Alert.AlertType.ERROR);
-                emptyFileErrorWindow.setTitle("Ошибка открытия файла");
-                emptyFileErrorWindow.setHeaderText("При открытии файла произошла ошибка!");
-                emptyFileErrorWindow.setContentText("Файл поврежден!");
-                emptyFileErrorWindow.showAndWait();
-                //e.printStackTrace();
-                return LoadingResult.BROKEN;
-            } catch (NullPointerException e) {
-                //System.out.println(this);
-                return LoadingResult.EMPTY;
+
+                if (e.getCause().getClass().equals(WstxUnexpectedCharException.class)) {
+                    Alert emptyFileErrorWindow = new Alert(Alert.AlertType.ERROR);
+                    emptyFileErrorWindow.setTitle("Ошибка открытия файла");
+                    emptyFileErrorWindow.setHeaderText("При открытии файла произошла ошибка!");
+                    emptyFileErrorWindow.setContentText("Файл поврежден!");
+                    emptyFileErrorWindow.showAndWait();
+                    return LoadingResult.BROKEN;
+                } else if (e.getCause().getClass().equals(WstxEOFException.class)) {
+                    return LoadingResult.EMPTY;
+                }
             }
             return LoadingResult.SUCCESS;
         } else {
