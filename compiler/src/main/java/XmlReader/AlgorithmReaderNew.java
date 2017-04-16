@@ -135,7 +135,7 @@ public class AlgorithmReaderNew {
                                         NodeList exprArgs = insideEdgeList.item(o).getChildNodes();
                                         for (int p=0; p<exprArgs.getLength();p++){
                                             if (exprArgs.item(p).getNodeName().equals("left")) {
-                                                name=exprArgs.item(p).getAttributes().getNamedItem("value").getNodeValue();
+                                                name=exprArgs.item(p).getAttributes().getNamedItem("name").getNodeValue();
                                                 if(memoryHashMap.containsKey(name)) {
                                                     left = memoryHashMap.get(name);
                                                 }else{
@@ -144,7 +144,7 @@ public class AlgorithmReaderNew {
                                                 continue;
                                             }
                                             if (exprArgs.item(p).getNodeName().equals("right")){
-                                                name=exprArgs.item(p).getAttributes().getNamedItem("value").getNodeValue();
+                                                name=exprArgs.item(p).getAttributes().getNamedItem("name").getNodeValue();
                                                 if(memoryHashMap.containsKey(name)){
                                                     right=memoryHashMap.get(name);
                                                 }else{

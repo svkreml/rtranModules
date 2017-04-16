@@ -87,6 +87,7 @@ public class Condition {
     private boolean compare(Alphabet alphabet, Tape tape) {
         for (int i = 0; i < alphabet.read().length; i++) {
             if (alphabet.read()[i] == tape.readCurrent()) {
+                tape.read();
                 aBoolean = true;
                 return aBoolean;
             }
