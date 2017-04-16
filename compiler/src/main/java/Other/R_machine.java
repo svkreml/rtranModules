@@ -5,8 +5,8 @@ import Logic.ArmLine;
 import Logic.Condition;
 import Logic.Statement;
 import Memories.*;
+import gui.window.makery.address.model.ProgramWindow;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -23,6 +23,7 @@ import java.util.Set;
 public class R_machine extends Thread implements Runnable{
     AllStorage allStorage;
     Storage storage;
+    private Stage stage;
 
     public Tape getTape() {
         return tape;
@@ -30,9 +31,10 @@ public class R_machine extends Thread implements Runnable{
 
     Tape tape;
     int i=0;
-    private Stage primaryStage;
-    private Pane rootLayout;
-    private TextArea textArea;
+//    private Stage primaryStage;
+//    private Pane rootLayout;
+//    public static TextArea textArea;
+    public static ProgramWindow window;
     private WorkExchange workExchange=null;
     private volatile StopType stopType = null;
     public volatile StringBox currentNumber = new StringBox(null);
@@ -216,7 +218,10 @@ public class R_machine extends Thread implements Runnable{
      * Метод для запуска РМашины без отладчика (простой прогон)
      * @throws InterruptedException
      */
-    public synchronized String simpleRun() throws InterruptedException {
+    public synchronized String simpleRun(ProgramWindow window, Stage stage) throws InterruptedException {
+        this.window = window;
+        this.stage = stage;
+        this.window.start(this.stage);
         loop:while (true) {
             this.currenntStatement = null;
             this.currentCondition = null;
@@ -232,6 +237,7 @@ public class R_machine extends Thread implements Runnable{
                         e.printStackTrace();
                     }
                 } else {
+                    window.getTextArea().appendText("Невозможно обработать алгоритм без нулевой вершины\n");
                     System.err.println("Невозможно обработать алгоритм без нулевой вершины");
                     System.exit(-1);
                 }
@@ -328,82 +334,82 @@ public class R_machine extends Thread implements Runnable{
             }
         }
     }
-    public synchronized void run(TextArea textArea){
-        this.textArea = textArea;
-        HashMap<String, Arm> arms = this.allStorage.getStorage().arms;
-        Arm firstArm=null;
-        if(arms.containsKey("0")){
-            firstArm=arms.get("0");
-        }else{
-            System.err.println("Невозможно обработать алгоритм без нулевой вершины");
-            System.exit(-1);
-        }
-        ArrayList<ArmLine> lines = firstArm.getLines();//обход ребер одной вершины ( в данном случае первой, т.е. с номером "0"
-        String endNumber =null;
-        for(ArmLine line:lines){
-            if(line.compare(this.tape)){ //Если условие в данном ребре истинно...
-                endNumber = line.getEndArmNumber();
-                for(Statement statement:line.getStatements()){ //выполнение всех выражений (операций) , перечисленных в ребре
-                    statement.doStatement(storage,tape);
-                }
-               //if ( this.allStorage.getTape().)
-//                if(Objects.equals(currentNumber, "#")) { //если указано, что следующая вершина конечная - вывод состояний вех памятей и возврат из обхода
-//                    System.out.println("Конец программы");
-//                    Set<String> names = this.allStorage.storage.getMemories().keySet();
-//                    for(String name:names){
-//                        System.out.println(this.allStorage.storage.getMemories().get(name));
-//                    }
-//                    return;
+//    public synchronized void run(TextArea textArea){
+//        this.textArea = textArea;
+//        HashMap<String, Arm> arms = this.allStorage.getStorage().arms;
+//        Arm firstArm=null;
+//        if(arms.containsKey("0")){
+//            firstArm=arms.get("0");
+//        }else{
+//            System.err.println("Невозможно обработать алгоритм без нулевой вершины");
+//            System.exit(-1);
+//        }
+//        ArrayList<ArmLine> lines = firstArm.getLines();//обход ребер одной вершины ( в данном случае первой, т.е. с номером "0"
+//        String endNumber =null;
+//        for(ArmLine line:lines){
+//            if(line.compare(this.tape)){ //Если условие в данном ребре истинно...
+//                endNumber = line.getEndArmNumber();
+//                for(Statement statement:line.getStatements()){ //выполнение всех выражений (операций) , перечисленных в ребре
+//                    statement.doStatement(storage,tape);
 //                }
-//                if(currentNumber == "#") {
-//                    System.out.println("Конец программы");
-//                    Set<String> names = this.allStorage.storage.getMemories().keySet();
-//                    for(String name:names){
-//                        System.out.println(this.allStorage.storage.getMemories().get(name));
-//                    }
-//                    return;
-//                }
-                char tapeCurrent=this.tape.readCurrent();
-                if(tapeCurrent=='#'){
-                    if (stopType == StopType.END){
-                        try {
-                            Thread.sleep(100);
-                            System.out.println("End of algorythm.");
-                            this.wait();
-                        } catch (InterruptedException e) {
-
-                        }
-                    }
-                    textArea.appendText("Конец программы\n");
-                    System.out.println("Конец программы");
-//                    try {
-//                        FileWriter file = new FileWriter("data/ResultFile.txt");
-//                        String buftext = "";
-//                        Set<String> names = this.allStorage.storage.getMemories().keySet();
-//                        for(String name:names){
-//                            buftext += this.allStorage.storage.getMemories().get(name).toString() + "\n";
-//                            textArea.appendText(String.valueOf(this.allStorage.storage.getMemories().get(name) + "\n"));
-//                            System.out.println(this.allStorage.storage.getMemories().get(name));
+//               //if ( this.allStorage.getTape().)
+////                if(Objects.equals(currentNumber, "#")) { //если указано, что следующая вершина конечная - вывод состояний вех памятей и возврат из обхода
+////                    System.out.println("Конец программы");
+////                    Set<String> names = this.allStorage.storage.getMemories().keySet();
+////                    for(String name:names){
+////                        System.out.println(this.allStorage.storage.getMemories().get(name));
+////                    }
+////                    return;
+////                }
+////                if(currentNumber == "#") {
+////                    System.out.println("Конец программы");
+////                    Set<String> names = this.allStorage.storage.getMemories().keySet();
+////                    for(String name:names){
+////                        System.out.println(this.allStorage.storage.getMemories().get(name));
+////                    }
+////                    return;
+////                }
+//                char tapeCurrent=this.tape.readCurrent();
+//                if(tapeCurrent=='#'){
+//                    if (stopType == StopType.END){
+//                        try {
+//                            Thread.sleep(100);
+//                            System.out.println("End of algorythm.");
+//                            this.wait();
+//                        } catch (InterruptedException e) {
+//
 //                        }
-//                        file.write(buftext);
-//                        file.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
 //                    }
-
-                    return;
-                }
-                this.currentNumber.setValue(endNumber);
-                run(); //Если программа продолжается ( т.е. не был указан конец ("#"), переход к обработке узла с номером, указанным в ребре.
-                return;
-            }
-        }
-        if (endNumber==null){
-            System.err.println("Нет выхода из вершины под номером 0");
-
-        }
-
-    }
+//                    textArea.appendText("Конец программы\n");
+//                    System.out.println("Конец программы");
+////                    try {
+////                        FileWriter file = new FileWriter("data/ResultFile.txt");
+////                        String buftext = "";
+////                        Set<String> names = this.allStorage.storage.getMemories().keySet();
+////                        for(String name:names){
+////                            buftext += this.allStorage.storage.getMemories().get(name).toString() + "\n";
+////                            textArea.appendText(String.valueOf(this.allStorage.storage.getMemories().get(name) + "\n"));
+////                            System.out.println(this.allStorage.storage.getMemories().get(name));
+////                        }
+////                        file.write(buftext);
+////                        file.close();
+////                    } catch (IOException e) {
+////                        e.printStackTrace();
+////                    }
+//
+//                    return;
+//                }
+//                this.currentNumber.setValue(endNumber);
+//                run(); //Если программа продолжается ( т.е. не был указан конец ("#"), переход к обработке узла с номером, указанным в ребре.
+//                return;
+//            }
+//        }
+//        if (endNumber==null){
+//            System.err.println("Нет выхода из вершины под номером 0");
+//
+//        }
+//
+//    }
 //    public void run(String armNumber){
 //        HashMap<String, Arm> arms = this.allStorage.getStorage().arms;
 //        Arm firstArm=null;
@@ -445,66 +451,66 @@ public class R_machine extends Thread implements Runnable{
 //
 //    }
 
-    public synchronized void run(String armNumber){
-        HashMap<String, Arm> arms = this.allStorage.getStorage().arms;
-        Arm firstArm=null;
-        if(arms.containsKey(armNumber)){
-            firstArm=arms.get(armNumber);
-        }else{
-            System.err.println("Ошибка в алгоритме: не существует вершины под номером: "+armNumber);
-            System.exit(-1);
-        }
-        ArrayList<ArmLine> lines = firstArm.getLines();
-        String endNumber = null;
-        for(ArmLine line:lines){
-            if(line.compare(this.tape)){
-
-                endNumber = line.getEndArmNumber();
-                for(Statement statement:line.getStatements()){
-                    statement.doStatement(storage,tape);
-                }
-                char tapeCurrent=this.tape.readCurrent();
-                if(tapeCurrent=='#'){
-                    try {
-                        this.textArea.appendText("Конец программы");
-                        System.out.println("Конец программы");
-                        Set<String> names = this.allStorage.storage.getMemories().keySet();
-                        for (String name : names) {
-                            this.textArea.appendText(String.valueOf(this.allStorage.storage.getMemories().get(name)));
-                            System.out.println(this.allStorage.storage.getMemories().get(name));
-                        }
-                    }catch(NullPointerException e1){
-                        System.out.println("Конец программы");
-                        Set<String> names = this.allStorage.storage.getMemories().keySet();
-                        for (String name : names) {
-                            System.out.println(this.allStorage.storage.getMemories().get(name));
-                        }
-                    }
-                    return;
-                }
-
-//                if(currentNumber == "#") {
-//                    System.out.println("Конец программы");
-//                    Set<String> names = this.allStorage.storage.getMemories().keySet();
-//                    for(String name:names){
-//                        System.out.println(this.allStorage.storage.getMemories().get(name));
+//    public synchronized void run(String armNumber){
+//        HashMap<String, Arm> arms = this.allStorage.getStorage().arms;
+//        Arm firstArm=null;
+//        if(arms.containsKey(armNumber)){
+//            firstArm=arms.get(armNumber);
+//        }else{
+//            System.err.println("Ошибка в алгоритме: не существует вершины под номером: "+armNumber);
+//            System.exit(-1);
+//        }
+//        ArrayList<ArmLine> lines = firstArm.getLines();
+//        String endNumber = null;
+//        for(ArmLine line:lines){
+//            if(line.compare(this.tape)){
+//
+//                endNumber = line.getEndArmNumber();
+//                for(Statement statement:line.getStatements()){
+//                    statement.doStatement(storage,tape);
+//                }
+//                char tapeCurrent=this.tape.readCurrent();
+//                if(tapeCurrent=='#'){
+//                    try {
+//                        this.textArea.appendText("Конец программы");
+//                        System.out.println("Конец программы");
+//                        Set<String> names = this.allStorage.storage.getMemories().keySet();
+//                        for (String name : names) {
+//                            this.textArea.appendText(String.valueOf(this.allStorage.storage.getMemories().get(name)));
+//                            System.out.println(this.allStorage.storage.getMemories().get(name));
+//                        }
+//                    }catch(NullPointerException e1){
+//                        System.out.println("Конец программы");
+//                        Set<String> names = this.allStorage.storage.getMemories().keySet();
+//                        for (String name : names) {
+//                            System.out.println(this.allStorage.storage.getMemories().get(name));
+//                        }
 //                    }
 //                    return;
 //                }
-                run(endNumber);
-                return;
-            }
-        }
-        if (endNumber==null){
-            System.err.println("Нет выхода из вершины под номером "+armNumber);
-            System.out.println("Конец программы");
-            Set<String> names = this.allStorage.storage.getMemories().keySet();
-            for (String name : names) {
-                System.out.println(this.allStorage.storage.getMemories().get(name));
-            }
-        }
-
-    }
+//
+////                if(currentNumber == "#") {
+////                    System.out.println("Конец программы");
+////                    Set<String> names = this.allStorage.storage.getMemories().keySet();
+////                    for(String name:names){
+////                        System.out.println(this.allStorage.storage.getMemories().get(name));
+////                    }
+////                    return;
+////                }
+//                run(endNumber);
+//                return;
+//            }
+//        }
+//        if (endNumber==null){
+//            System.err.println("Нет выхода из вершины под номером "+armNumber);
+//            System.out.println("Конец программы");
+//            Set<String> names = this.allStorage.storage.getMemories().keySet();
+//            for (String name : names) {
+//                System.out.println(this.allStorage.storage.getMemories().get(name));
+//            }
+//        }
+//
+//    }
 
     public HashMap<String,Memory> getMemories(){
         return this.allStorage.storage.getMemories();

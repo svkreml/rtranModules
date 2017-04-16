@@ -35,7 +35,7 @@ public class FileWorker {
         // Сначала проверим, нет ли такой функциональной памяти уже в файле. Если есть, ихменим ее значение.
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String buffer = null;
+        String buffer = "";
         boolean found = false;
         while (true) {
             String line = bufferedReader.readLine();

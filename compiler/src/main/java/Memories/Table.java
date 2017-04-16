@@ -48,13 +48,11 @@ public class Table implements Memory {
 
     public Table(String tname/*, ArrayList<HashMap<String,String>> table,String[] colnames*/) {
         this.tname = tname;
-//        if(table!=null) {
-//            this.table = table;
-//        }
         HashMap<String,String> list = new HashMap<>();
-//        for()
-//        Collections.addAll(list, colnames);
         this.colnames = list;
+        for(int count = 0; count < 1; count++) {
+            table.add(count, colnames);
+        }
     }
 
     public String getName() {

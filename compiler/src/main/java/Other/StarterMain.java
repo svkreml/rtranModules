@@ -24,6 +24,7 @@ public class StarterMain {
     String tape;
     Stage stage;
 
+
     public StarterMain(String filepath, boolean debugType, String tape, Stage stage) throws Exception {
         this.stage = stage;
         this.filepath = filepath;
@@ -49,9 +50,9 @@ public class StarterMain {
             Storage storage = new Storage(algorithmReader.arms, algorithmReader.memoryHashMap, algorithmReader.alphabetHashMap);
             AllStorage allStorage = new AllStorage(storage, new Tape(tape));
             R_machine r_machine = new R_machine(allStorage);
-            String result = r_machine.simpleRun();
-            ProgramWindow programWindow = new ProgramWindow(r_machine,result);
-            programWindow.start(this.stage);
+            ProgramWindow window = new ProgramWindow();
+            r_machine.simpleRun(window, this.stage);
+//            programWindow.start(this.stage);
             return "0";
         }else{
             DebuggerRunner debuggerRunner = new DebuggerRunner(this.filepath,this.tape, this.stage);

@@ -2,14 +2,10 @@ package Logic;
 
 import Memories.Memory;
 import Other.FileWorker;
+import Other.R_machine;
 import Other.Storage;
 import Other.Tape;
 import SPO.Processor;
-import javafx.event.EventHandler;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,11 +17,11 @@ import java.util.Set;
  * Оператор представлен массивом из 4 символов
  */
 public class Statement {
-    public static final String FILE = "FileWork";
-    public static final String CONSOLE = "ConsoleWork";
-    public static final String MEMORY = "FullMemory";
-    private TextArea textArea;
-    private TextField textField;
+    public static final String FILE = "FILE";
+    public static final String CONSOLE = "CONSOLE";
+    public static final String MEMORY = "MEMORY";
+//    private TextArea textArea;
+//    private TextField textField;
 
 //    String lefStr, rightStr;
 //    Memories.Memory leftMem,rightMem;
@@ -51,7 +47,7 @@ public class Statement {
 //        this.operator = operator;
 //        this.rightStr=rightStr;
 //        this.leftMem=leftMem;
-//    }
+//    } R_machine.window.getTextArea().appendText(
 
 
     /**
@@ -171,6 +167,7 @@ public class Statement {
                 return;
             }
         }
+        R_machine.window.getTextArea().appendText("Нет такой переменной "+varName+"\n");
         System.err.println("Нет такой переменной "+varName);
     }
 
@@ -256,6 +253,7 @@ public class Statement {
                 return;
             }
         }
+        R_machine.window.getTextArea().appendText("Нет такой переменной "+varName+"\n");
         System.err.println("Нет такой переменной "+varName);
     }
 
@@ -279,20 +277,20 @@ public class Statement {
     String rightArg;
     Operator operator;
 
-    public Statement(String leftArg, Operator operator, String rightArg, TextArea textArea) {
-        this.leftArg = leftArg;
-        this.operator = operator;
-        this.rightArg = rightArg;
-        this.textArea = textArea;
-    }
+//    public Statement(String leftArg, Operator operator, String rightArg, TextArea textArea) {
+//        this.leftArg = leftArg;
+//        this.operator = operator;
+//        this.rightArg = rightArg;
+//        this.textArea = textArea;
+//    }
 
-    public Statement(String leftArg, Operator operator, String rightArg, TextArea textArea, TextField textField) {
-        this.leftArg = leftArg;
-        this.operator = operator;
-        this.rightArg = rightArg;
-        this.textArea = textArea;
-        this.textField = textField;
-    }
+//    public Statement(String leftArg, Operator operator, String rightArg, TextArea textArea, TextField textField) {
+//        this.leftArg = leftArg;
+//        this.operator = operator;
+//        this.rightArg = rightArg;
+//        this.textArea = textArea;
+//        this.textField = textField;
+//    }
 
     public Statement(String leftArg, Operator operator, String rightArg) {
         this.leftArg = leftArg;
@@ -300,10 +298,10 @@ public class Statement {
         this.rightArg = rightArg;
     }
 
-    public void doStatement(Storage storage, Tape tape){
+    public synchronized void doStatement(Storage storage, Tape tape) throws InterruptedException {
         if(String.valueOf(this.operator.middle).contains("<")){
             if(Objects.equals(this.leftArg, CONSOLE)) {
-                textArea.appendText(rightArg + ": " + read(rightArg,storage.getMemories()) + "\n");
+                R_machine.window.getTextArea().appendText(rightArg + ": " + read(rightArg,storage.getMemories()) + "\n");
             } else if (Objects.equals(this.leftArg, FILE)) {
                 if (Objects.equals(rightArg, MEMORY)) {
                     String buftext = "";
@@ -314,7 +312,7 @@ public class Statement {
                     FileWorker.appendDump("data/ResultFile.txt", buftext);
                 } else {
                     try {
-                        FileWorker.appendData("data/ResultFile.txt", rightArg, read(rightArg, storage.getMemories()));
+                        FileWorker.appendData("D:\\Java_programs\\rtranModules3\\compiler\\src\\main\\data\\ResultFile.txt", rightArg, read(rightArg, storage.getMemories()));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -325,17 +323,16 @@ public class Statement {
                 }
                 if(Objects.equals(this.rightArg, FILE)) {
                     String buffer = FileWorker.searchValueByTarget("data/ResultFile.txt", leftArg);
+//                    R_machine.window.getTextArea().appendText(buffer+"\n");
                     System.out.println(buffer);
                     write(this.leftArg,buffer,storage.getMemories());
                 } else if (Objects.equals(this.rightArg, CONSOLE)) {
-                    System.out.println("Here");
-                    textField.setOnKeyPressed(event -> {
-                        if(event.getCode() == KeyCode.ENTER) {
-                            System.out.println("Here");
-                            write(leftArg, textField.getText(), storage.getMemories());
-                            textField.clear();
-                        }
+                    R_machine.window.getInputButton().setOnMouseClicked(event -> {
+                        System.out.println("Here");
+                        write(leftArg, R_machine.window.getTextField().getText(), storage.getMemories());
+                        R_machine.window.getTextField().clear();
                     });
+
                 } else {
                     write(this.leftArg, Processor.count(rightArg, storage.getMemories()), storage.getMemories());
                 }
@@ -346,7 +343,7 @@ public class Statement {
 
         }else if(String.valueOf(this.operator.middle).contains(">")) {
             if (Objects.equals(this.rightArg, CONSOLE)) {
-                textArea.appendText(leftArg + ": " + read(leftArg,storage.getMemories()) + "\n");
+                R_machine.window.getTextArea().appendText(leftArg + ": " + read(leftArg,storage.getMemories()) + "\n");
             } else if (Objects.equals(this.rightArg, FILE)) {
                 if (Objects.equals(this.leftArg, MEMORY)) {
                     String buftext = "";
@@ -371,26 +368,13 @@ public class Statement {
                     String buffer = FileWorker.searchValueByTarget("data/ResultFile.txt", this.leftArg);
                     write(this.leftArg,buffer,storage.getMemories());
                 } else if (Objects.equals(this.leftArg, CONSOLE)) {
-                    System.out.println("Here");
-                    final String[] text = {""};
-                    this.textField.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-                        @Override
-                        public void handle(KeyEvent event) {
-                            if(event.getCode() == KeyCode.ENTER) {
-                                System.out.println("Here");
-                                text[0] = textField.getText();
-                                textField.clear();
-                            }
-                        }
+                    R_machine.window.getInputButton().setOnMouseClicked(event -> {
+                        System.out.println("Here");
+                        write(rightArg, R_machine.window.getTextField().getText(), storage.getMemories());
+                        R_machine.window.getTextField().clear();
+                        Thread.currentThread().notify();
                     });
-//                    this.textField.addEventHandler(KeyEvent.KEY_TYPED, event -> {
-//                        if(event.getCode() == KeyCode.ENTER) {
-//                            System.out.println("Here");
-//                            text[0] = this.textField.getText();
-//                            this.textField.clear();
-//                        }
-//                    });
-                    write(rightArg, text[0], storage.getMemories());
+                    Thread.currentThread().wait();
                 } else {
                     write(rightArg, Processor.count(leftArg, storage.getMemories()), storage.getMemories());
                 }
@@ -424,31 +408,6 @@ public class Statement {
                 }
             }
             add(storage.getMemories(),tablename,index, rightArg);
-        } else if(String.valueOf(this.operator.middle).contains("|-")) {
-            textArea.appendText(rightArg + read(leftArg,storage.getMemories()) + "\n");
-            System.out.println(rightArg.toString() + read(leftArg,storage.getMemories()));
-            if(this.operator.left.equals('/')){
-                clear(this.rightArg,storage.getMemories());
-            }
-        } else if(String.valueOf(this.operator.middle).contains("-|")) {
-            if(this.operator.left=='/'){
-                clear(this.leftArg,storage.getMemories());
-            }
-            if(rightArg != null) {
-                textArea.appendText(rightArg);
-                System.out.print(rightArg);
-            }
-//            final String[] value = new String[0];
-//            textField.addEventHandler(KeyEvent.VK_ENTER, (EventHandler<KeyEvent>) event -> value[0] = textField.getText());
-
-//            addKeyListener(new KeyAdapter() {
-//                public void formKeyPressed(java.awt.event.KeyEvent evt) {
-//                    if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//                        value[0] = textField.getText();
-//                    }
-//                }
-//            });
-//            write(this.leftArg,Processor.count(value[0],storage.getMemories()),storage.getMemories());
         }
     }
     //    }
