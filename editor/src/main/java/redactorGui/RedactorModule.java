@@ -69,7 +69,6 @@ public class RedactorModule {
         commandData.clear();
         memoryTypesData.clear();
         alphabetsData.clear();
-        setDefaultAlphabets();
     }
 
     public void load(File file) {
@@ -104,7 +103,7 @@ public class RedactorModule {
         setDefaultAlphabets();
     }
 
-    private void setDefaultAlphabets() {
+    void setDefaultAlphabets() {
         alphabetRecord russian = new alphabetRecord();
         russian.setName("русский алфавит");
         russian.setShortName("рус");
@@ -126,6 +125,12 @@ public class RedactorModule {
         punctuationMarks.setValues(".,;:!?‐-‒–—―[](){}⟨⟩„“«»“”‘’‹›\"");
 
         alphabetsData.setAll(russian, english, numbers, punctuationMarks);
+        try {
+            R_pro updated = new R_pro("1.0", getR_pro().getProgname(), getDescriptive_part(), getAlg());
+            updateR_pro(updated);
+        } catch (Exception e) {
+            return;
+        }
     }
 
     public ObservableList<Command> getCommandData() {

@@ -92,6 +92,7 @@ public class RedactorModuleController {
             insertAbc(readed);
         } else if (loadingResult == LoadingResult.EMPTY) {
             redactorModule.clearR_pro();
+            redactorModule.setDefaultAlphabets();
             path = loader.getLocation();
         }
     }
@@ -114,8 +115,9 @@ public class RedactorModuleController {
 
     private void insertMemory(R_pro readed) {
         ObservableList<memoryTypeRecord> readedMemory = FXCollections.observableArrayList();
-        if (readed.getDescriptive_part().getMemory_block() != null) {
-            for (Memory memory : readed.getDescriptive_part().getMemory_block().getMemory()) {
+        try  {
+            Memory_block memory_block = readed.getDescriptive_part().getMemory_block();
+            for (Memory memory : memory_block.getMemory()) {
                 memoryTypeRecord record = new memoryTypeRecord();
 
                 switch (memory.getType()) {
@@ -138,6 +140,8 @@ public class RedactorModuleController {
                 }
                 readedMemory.add(record);
             }
+        } catch (NullPointerException e) {
+            return;
         }
         redactorModule.getMemoryTypesData().removeAll();
         redactorModule.getMemoryTypesData().addAll(readedMemory);
