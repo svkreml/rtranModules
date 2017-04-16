@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 import structure.R_pro;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Created by Alex on 28.11.2016.
@@ -32,7 +35,11 @@ public class Loader {
 
     public Loader() {
     }
+    public static String readFile(Path path, Charset encoding) throws IOException {
 
+        byte[] encoded = Files.readAllBytes(path);
+        return new String(encoded, encoding);
+    }
     public LoadingResult load(File location) {
         this.location = location;
         if (location != null) {
@@ -40,8 +47,7 @@ public class Loader {
             module.setDefaultUseWrapper(false);
             XmlMapper xmlMapper = new XmlMapper(module);
             try {
-                BufferedReader read = new BufferedReader(new FileReader(location));
-                String program = read.readLine();
+                String program = readFile(location.toPath(),Charset.defaultCharset());
                 readed = xmlMapper.readValue(program, R_pro.class);
             } catch (IOException e) {
                 Alert emptyFileErrorWindow = new Alert(Alert.AlertType.ERROR);
