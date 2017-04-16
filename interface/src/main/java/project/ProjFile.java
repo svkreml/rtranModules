@@ -53,6 +53,7 @@ public class ProjFile {
         this.project_name = projectDirectory.getName();
         this.setLenta(false);
         this.setLentaPath("");
+        this.setRunType("console");
         setPath(projectDirectory);
     }
     public ProjFile() {
