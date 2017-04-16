@@ -23,6 +23,8 @@ public class ProjFile {
     String path;
     @JacksonXmlProperty()
     String lentaPath;
+    @JacksonXmlProperty()
+    String inputPath;
 
     public String getRunType() {
         return runType;

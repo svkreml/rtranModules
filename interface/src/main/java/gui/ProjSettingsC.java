@@ -46,28 +46,29 @@ public class ProjSettingsC {
         textField.setText(projFile.getLentaPath());
         checkBox.setSelected(projFile.isLenta());
         setRadio(projFile.getRunType());
-        if(projFile.getLentaPath()==null)projFile.setLentaPath("Тестовые данные");
-        setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\"+projFile.getLentaPath());
+        //if(projFile.getLentaPath()==null)projFile.setLentaPath("Тестовые данные");
+        if(!checkRadio().equals("console"))
+            setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\"+checkRadio());
     }
 
     public String checkRadio() {
         if (radioConsole.isSelected())
             return "console";
         if (radioInputFiles.isSelected())
-            return "inputFiles";
+            return "Входные данные";
         if (radioTestRun.isSelected())
-            return "testRun";
+            return "Тестовые данные";
         return null;
     }
 
     public void setRadio(String type) {
 
-        if (type==null || type.equals("testRun")) {
+        if (type==null || type.equals("Тестовые данные")) {
             radioTestRun.setSelected(true);
             folder = "Тестовые данные";
         } else if (type.equals("console")) {
             radioConsole.setSelected(true);
-        } else if (type.equals("inputFiles")) {
+        } else if (type.equals("Входные данные")) {
             radioInputFiles.setSelected(true);
             folder = "Входные данные";
         }
@@ -78,7 +79,8 @@ public class ProjSettingsC {
     }
 
     public void Apply(ActionEvent actionEvent) {
-        if(checkBox.isSelected())projFile.setLentaPath(getLentaPath());
+       // if(checkBox.isSelected())
+            projFile.setLentaPath(getLentaPath());
         projFile.setLenta(checkBox.isSelected());
         projFile.setRunType(checkRadio());
         projFile.save();
@@ -122,6 +124,6 @@ public class ProjSettingsC {
         chooseFile.setItems(files);
     }
     String getLentaPath(){
-        return folder+"/"+chooseFile.getSelectionModel().getSelectedItem().toString();
+        return folder+"\\"+chooseFile.getSelectionModel().getSelectedItem().toString();
     }
 }
