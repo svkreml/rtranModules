@@ -120,36 +120,35 @@ public class addNewLineController {
 
         // Загрузить опции линейных операторов
 
-
-        linopFieldLeft.setItems(memoryOptions);
-        TextFields.bindAutoCompletion(linopFieldLeft.getEditor(), linopFieldLeft.getItems());
-
-        //operatorOptions.add("|-");
-        //operatorOptions.add("-|");
         operatorOptions.add("&=");
         operatorOptions.add("~=");
-        operatorOptions.add("^");
         operatorOptions.add("^=");
-        operatorOptions.add(":");
-        operatorOptions.add(":=");
-        operatorOptions.add("->");
+        operatorOptions.add(".=");
         operatorOptions.add("<-");
-        operatorOptions.add("/");
-        operatorOptions.add("*");
+        operatorOptions.add("->");
+        operatorOptions.add("/<-");
+        operatorOptions.add("<-/");
+        operatorOptions.add("/->");
+        operatorOptions.add("->/");
 
         linopFieldCenter.setItems(operatorOptions);
         TextFields.bindAutoCompletion(linopFieldCenter.getEditor(), linopFieldCenter.getItems());
-        //funcOptions.add("sqrt()");
 
         funcOptions.add("FILE");
         funcOptions.add("CONSOLE");
         funcOptions.add("MEMORY");
+        funcOptions.add("COLUMN");
 
-        linopFieldRight.setItems(funcOptions);
+        ObservableList<String> linopOptions = FXCollections.observableArrayList(memoryOptions);
+        linopOptions.addAll(funcOptions);
+
+        linopFieldLeft.setItems(linopOptions);
+        TextFields.bindAutoCompletion(linopFieldLeft.getEditor(), linopFieldLeft.getItems());
+
+        linopFieldRight.setItems(linopOptions);
         TextFields.bindAutoCompletion(linopFieldRight.getEditor(), linopFieldRight.getItems());
 
-        linopFieldLeft.getItems().addAll(funcOptions);
-        TextFields.bindAutoCompletion(linopFieldLeft.getEditor(), linopFieldLeft.getItems());
+
     }
 
     @FXML

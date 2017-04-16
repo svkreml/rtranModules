@@ -52,7 +52,6 @@ public class Loader {
             try {
                 BufferedReader buffer = new BufferedReader(new FileReader(location));
                 String program = buffer.lines().collect(Collectors.joining());
-                System.out.println(program);
                 readed = xmlMapper.readValue(program, R_pro.class);
             } catch (IOException e) {
 

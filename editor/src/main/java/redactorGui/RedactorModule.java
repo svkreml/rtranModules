@@ -273,42 +273,22 @@ public class RedactorModule {
         String linopCenter = record.getLinopCenter();
         String linopRight = record.getLinopRight();
 
-        Left left = new Left();
-        String operator = "";
-        Right right = new Right();
+        Left left;
+        String operator;
+        Right right;
         Operation operation;
         List<String> knownOperators = new ArrayList<>();
 
-        knownOperators.add("=");
-
-        knownOperators.add("->");
-        knownOperators.add("/->/");
-        knownOperators.add("/->");
-        knownOperators.add("->/");
-
+        knownOperators.add("&=");
+        knownOperators.add("~=");
+        knownOperators.add("^=");
+        knownOperators.add(".=");
         knownOperators.add("<-");
-        knownOperators.add("/<-/");
+        knownOperators.add("->");
         knownOperators.add("/<-");
         knownOperators.add("<-/");
-
-
-        knownOperators.add("|-");
-        knownOperators.add("-|");
-
-        knownOperators.add("&=");
-
-        knownOperators.add("~=");
-
-        knownOperators.add("^=");
-
-        knownOperators.add(":=");
-
-        knownOperators.add(">");
-        knownOperators.add("<");
-        knownOperators.add("==");
-        knownOperators.add("!=");
-
-        //boolean operatorDetected = false;
+        knownOperators.add("/->");
+        knownOperators.add("->/");
 
         for(String oper : knownOperators) {
             if (linopCenter.equals(oper)) {
@@ -329,7 +309,6 @@ public class RedactorModule {
         alert.setHeaderText("По всей видимости, такого линейного оператора не существует");
         alert.setContentText("Во избежание ошибок времени выполнения, исправьте линейный оператор.");
         alert.showAndWait();
-
 
         operation = new Operation(new Left(linopLeft), linopCenter, new Right(linopRight));
         return operation;
