@@ -46,7 +46,8 @@ public class ProjSettingsC {
         textField.setText(projFile.getLentaPath());
         checkBox.setSelected(projFile.isLenta());
         setRadio(projFile.getRunType());
-        setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\"+folder);
+        if(projFile.getLentaPath()==null)projFile.setLentaPath("Тестовые данные");
+        setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\"+projFile.getLentaPath());
     }
 
     public String checkRadio() {
@@ -60,15 +61,15 @@ public class ProjSettingsC {
     }
 
     public void setRadio(String type) {
-        if (type == null) return;
-        if (type.equals("console")) {
+
+        if (type==null || type.equals("testRun")) {
+            radioTestRun.setSelected(true);
+            folder = "Тестовые данные";
+        } else if (type.equals("console")) {
             radioConsole.setSelected(true);
         } else if (type.equals("inputFiles")) {
             radioInputFiles.setSelected(true);
             folder = "Входные данные";
-        } else if (type.equals("testRun")) {
-            radioTestRun.setSelected(true);
-            folder = "Тестовые данные";
         }
     }
 
@@ -108,6 +109,7 @@ public class ProjSettingsC {
     }
 
     void setChooseFile(String file) {
+       // if(file==null) file="Тестовые данные";
         files= FXCollections.observableArrayList();
         chooseFile.setDisable(false);
         try {
