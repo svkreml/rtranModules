@@ -209,9 +209,9 @@ public class MainWindowC {
 
     private void runM(boolean debugType) {
         String lenta = null;
-        if (mainApp.getProjectR().getProjFile().isLenta()) {
+        if (!mainApp.getProjectR().getProjFile().getRunType().equals("console")) {
             try {
-                lenta = Explorer.readFile(Paths.get(mainApp.getProjectR().getProjFile().getPath().toString(), mainApp.getProjectR().getProjFile().getLentaPath()), Charset.defaultCharset());
+                lenta = Explorer.readFile(Paths.get(mainApp.getProjectR().getProjFile().getPath().toString(),mainApp.getProjectR().getProjFile().getRunType(), mainApp.getProjectR().getProjFile().getLentaPath()), Charset.defaultCharset());
             } catch (IOException e) {
                 e.printStackTrace();
             }
