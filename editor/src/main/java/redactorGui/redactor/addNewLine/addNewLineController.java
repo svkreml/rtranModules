@@ -94,6 +94,7 @@ public class addNewLineController {
         TextFields.bindAutoCompletion(uslovieFieldLeft.getEditor(), uslovieFieldLeft.getItems());
 
         predicateOptions.addAll(alphabetOptions);
+        predicateOptions.addAll(memoryOptions);
 
         predicateOptions.add("<");
         predicateOptions.add(">");
