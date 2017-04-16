@@ -33,6 +33,18 @@ public class Table implements Memory {
 //            table.get(count).add("");
         }
     }
+    public Table(String tname, ArrayList<String> names) {
+        this.tname = tname;
+        HashMap<String, String> tableEntity = new HashMap<>();
+        for(String column:names){
+            tableEntity.put(column,null);
+        }
+        this.colnames = colnames;
+        for(int count = 0; count < 1; count++) {
+            table.add(count, tableEntity);
+//            table.get(count).add("");
+        }
+    }
 
     public Table(String tname/*, ArrayList<HashMap<String,String>> table,String[] colnames*/) {
         this.tname = tname;

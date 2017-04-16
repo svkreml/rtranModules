@@ -63,8 +63,8 @@ public class AlgorithmReaderNew {
                         String rname = currentMemory.getAttributes().getNamedItem("rightName").getNodeValue();
                         memoryHashMap.put(lname+"*"+rname, new Wagon(lname,rname,null));
                         break;
-//                    case "Table":
-//                        name = currentMemory.getAttributes().getNamedItem("name").getNodeValue().replace("\"","");
+                    case "Table":
+                        name = currentMemory.getAttributes().getNamedItem("name").getNodeValue().replace("\"","");
 //                        ArrayList<String> colNames = new ArrayList<>();
 //                        NodeList tableChildren = currentMemory.getChildNodes();
 //                        for(int j=0; j<tableChildren.getLength();j++){
@@ -79,7 +79,8 @@ public class AlgorithmReaderNew {
 //                                }
 //                            }
 //                        }
-//                        break;
+                        memoryHashMap.put(name,new Table(name));
+                        break;
                 }
             }
         }
