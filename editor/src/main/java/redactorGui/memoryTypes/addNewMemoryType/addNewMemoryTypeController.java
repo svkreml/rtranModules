@@ -40,7 +40,7 @@ public class addNewMemoryTypeController {
     private GridPane wagonPane;
 
     @FXML
-    private GridPane mainPane;
+    private GridPane checkBoxPane;
 
     @FXML
     private Button doneButton;
@@ -80,10 +80,14 @@ public class addNewMemoryTypeController {
                 nameField.setVisible(true);
             }
 
+            // FIXME: 18.04.2017 Разные поля для комментов
+
             if (typeChoiceBox.getItems().get(newValue.intValue()).equals("Регистр")) {
-                outType.setVisible(true);
+                commentsArea.setVisible(false);
+                checkBoxPane.setVisible(true);
             } else {
-                outType.setVisible(false);
+                checkBoxPane.setVisible(false);
+                commentsArea.setVisible(true);
             }
 
         });

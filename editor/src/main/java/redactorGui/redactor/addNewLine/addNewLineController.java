@@ -113,7 +113,7 @@ public class addNewLineController {
         // Загрузить опции для поля "Метка перехода"
 
         for (Command record : redactorModule.getCommandData()) {
-            metkaPerehodaOptions.add(record.getMetka());
+            if (!record.getMetka().isEmpty()) metkaPerehodaOptions.add(record.getMetka());
         }
 
         metkaPerehodaField.setItems(metkaPerehodaOptions);

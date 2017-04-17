@@ -82,6 +82,17 @@ public class alphabetsController {
         shortNameColumn.setCellValueFactory(cellData -> cellData.getValue().shortNameProperty());
         valuesColumn.setCellValueFactory(cellData -> cellData.getValue().valuesProperty());
         commentsColumn.setCellValueFactory(cellData -> cellData.getValue().commentsProperty());
+
+        alphabetsTable.setRowFactory(at -> {
+            TableRow<alphabetRecord> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    handleEditRecord();
+                }
+            });
+            return row ;
+        });
+
     }
 
     public void setRedactorModule(RedactorModule redactorModule) {

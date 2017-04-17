@@ -5,6 +5,9 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import redactorGui.memoryTypes.addNewMemoryType.addNewMemoryTypeController;
 import redactorGui.RedactorModule;
@@ -77,6 +80,51 @@ public class memoryTypesController {
         typeColumn.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         commentsColumn.setCellValueFactory(cellData -> cellData.getValue().commentsProperty());
+
+        memoryTypesTable.setRowFactory(mtt -> {
+            TableRow<memoryTypeRecord> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    handleEditRecord();
+                }
+            });
+            return row ;
+        });
+
+        nameColumn.setCellFactory(column -> new TableCell<memoryTypeRecord, String>() {
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    if (isOutputRegister(item)) {
+                        Font bold = Font.font(Font.getDefault().getFamily(), FontWeight.BOLD, Font.getDefault().getSize());
+                        setFont(bold);
+                    }
+                }
+            }
+
+        });
+
+    }
+
+    private boolean isOutputRegister(String item) {
+        for (memoryTypeRecord record : redactorModule.getMemoryTypesData()) {
+            // record.getOutType() != null
+
+
+            if (record.getName().equals(item)) {
+                if (record.getOutType() != null && record.getOutType().equals(true)) {
+                    //Font bold = Font.font(Font.getDefault().getFamily(), FontWeight.BOLD, Font.getDefault().getSize());
+                    //setFont(bold);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void setRedactorModule(RedactorModule redactorModule) {
@@ -104,7 +152,7 @@ public class memoryTypesController {
             controller.setRedactorModule(redactorModule);
 
             dialogStage.showAndWait();
-
+            memoryTypesTable.refresh();
             return controller.isOkClicked();
 
         } catch (IOException e) {

@@ -240,6 +240,12 @@ public class RedactorController {
 
             });
 
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    handleEditCommand();
+                }
+            });
+
             return row;
         });
 
