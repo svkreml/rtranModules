@@ -128,6 +128,7 @@ public class RedactorModuleController {
                     case "Register":
                         record.setType("Регистр");
                         record.setName(memory.getName());
+                        record.setOutType(memory.getOutType());
                         break;
                     case "Wagon":
                         record.setType("Вагон");

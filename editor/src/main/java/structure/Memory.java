@@ -49,6 +49,13 @@ public class Memory {
     @JacksonXmlProperty(isAttribute = true)
     String rightName;
 
+    public Boolean getOutType() {
+        return outType;
+    }
+
+    @JacksonXmlProperty(isAttribute = true)
+    Boolean outType;
+
     @JacksonXmlProperty
     ColumnsName columnsName;
 
@@ -75,4 +82,11 @@ public class Memory {
         this.name = name;
         this.columnsName = columnsName;
     }
+
+    public Memory(String type, String name, Boolean outType) {
+        this.type = type;
+        this.name = name;
+        this.outType = outType;
+    }
+
 }

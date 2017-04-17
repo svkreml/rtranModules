@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import redactorGui.RedactorModule;
 import redactorGui.memoryTypes.memoryTypeRecord;
 import javafx.collections.FXCollections;
@@ -39,10 +40,16 @@ public class addNewMemoryTypeController {
     private GridPane wagonPane;
 
     @FXML
+    private GridPane mainPane;
+
+    @FXML
     private Button doneButton;
 
     @FXML
     private Button cancelButton;
+
+    @FXML
+    private CheckBox outType;
 
     private Stage dialogStage;
     private memoryTypeRecord memoryRecord;
@@ -72,6 +79,13 @@ public class addNewMemoryTypeController {
                 wagonPane.setVisible(false);
                 nameField.setVisible(true);
             }
+
+            if (typeChoiceBox.getItems().get(newValue.intValue()).equals("Регистр")) {
+                outType.setVisible(true);
+            } else {
+                outType.setVisible(false);
+            }
+
         });
     }
 
@@ -92,6 +106,11 @@ public class addNewMemoryTypeController {
         } else {
             nameField.setText(memoryRecord.getName());
         }
+
+        if (typeChoiceBox.getValue().toString().equals("Регистр")) {
+            outType.setSelected(memoryRecord.getOutType());
+        }
+
         commentsArea.setText(memoryRecord.getComments());
     }
 
@@ -114,6 +133,12 @@ public class addNewMemoryTypeController {
                 memoryRecord.setName(wagonName);
             } else {
                 memoryRecord.setName(nameField.getText());
+            }
+
+            if (memoryRecord.getType().equals("Регистр")) {
+                memoryRecord.setOutType(outType.isSelected());
+            } else {
+                memoryRecord.setOutType(null);
             }
 
             okClicked = true;

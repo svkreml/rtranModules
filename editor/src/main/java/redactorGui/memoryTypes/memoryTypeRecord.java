@@ -14,12 +14,14 @@ public class memoryTypeRecord {
     private final StringProperty type;
     private final StringProperty name;
     private final StringProperty comments;
+    private Boolean outType;
 
     public memoryTypeRecord() {
 
         this.type = new SimpleStringProperty("");
         this.name = new SimpleStringProperty("");
         this.comments = new SimpleStringProperty("");
+        outType = null;
         
     }
 
@@ -64,5 +66,13 @@ public class memoryTypeRecord {
     }
 
     // -------------------------------------------------------------------
+
+    public Boolean getOutType() {
+        return outType;
+    }
+
+    public void setOutType(Boolean outType) {
+        this.outType = outType;
+    }
     
 }

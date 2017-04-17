@@ -131,6 +131,7 @@ public class addNewLineController {
         operatorOptions.add("<-/");
         operatorOptions.add("/->");
         operatorOptions.add("->/");
+        operatorOptions.add("*");
 
         linopFieldCenter.setItems(operatorOptions);
         TextFields.bindAutoCompletion(linopFieldCenter.getEditor(), linopFieldCenter.getItems());
@@ -138,7 +139,7 @@ public class addNewLineController {
         funcOptions.add("FILE");
         funcOptions.add("CONSOLE");
         funcOptions.add("MEMORY");
-        funcOptions.add("COLUMN");
+        funcOptions.add("ROW");
 
         ObservableList<String> linopOptions = FXCollections.observableArrayList(memoryOptions);
         linopOptions.addAll(funcOptions);

@@ -238,7 +238,7 @@ public class RedactorModule {
                     memory.add(new Memory("Counter", record.getName()));
                     break;
                 case "Регистр":
-                    memory.add(new Memory("Register", record.getName()));
+                    memory.add(new Memory("Register", record.getName(), record.getOutType()));
                     break;
                 case "Вагон":
                     String lv = record.getName().split(" | ")[0];
@@ -289,6 +289,7 @@ public class RedactorModule {
         knownOperators.add("<-/");
         knownOperators.add("/->");
         knownOperators.add("->/");
+        knownOperators.add("*");
 
         for(String oper : knownOperators) {
             if (linopCenter.equals(oper)) {
