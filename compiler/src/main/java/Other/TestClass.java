@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class TestClass {
     public static void main1(String[] args) {
-        Register register = new Register("R1","Val1");
+        Register register = new Register("R1","Val1",false);
         Wagon wagon = new Wagon("ЛВ","ПВ", new ArrayList<>(Arrays.asList("1","2","3")));
         System.out.println(wagon);
         System.out.println(register);
@@ -124,7 +124,7 @@ public class TestClass {
         Wagon wagon = new Wagon("LN","RN", new ArrayList<>());
         wagon.write("something","LN");
         System.out.println(wagon);
-        Register register = new Register("reg",null);
+        Register register = new Register("reg",null,false);
         register.write("somethigElse", "reg");
         System.out.println(register);
         Counter counter = new Counter("counter",null);
