@@ -312,9 +312,17 @@ public class Statement {
     public synchronized void doStatement(Storage storage, Tape tape) throws InterruptedException {
         if(String.valueOf(this.operator.middle).contains("<")){
             if(Objects.equals(this.leftArg, CONSOLE)) {
+                if(Objects.equals(this.rightArg, MEMORY)) {
+                    String buftext = "";
+                    Set<String> names = storage.getMemories().keySet();
+                    for(String name:names){
+                        buftext += storage.getMemories().get(name).toString() + "\n";
+                    }
+                    R_machine.window.getTextArea().appendText(buftext + "\n");
+                }
                 R_machine.window.getTextArea().appendText(rightArg + ": " + read(rightArg,storage.getMemories()) + "\n");
             } else if (Objects.equals(this.leftArg, FILE)) {
-                if (Objects.equals(rightArg, MEMORY)) {
+                if (Objects.equals(this.rightArg, MEMORY)) {
                     String buftext = "";
                     Set<String> names = storage.getMemories().keySet();
                     for(String name:names){
@@ -354,6 +362,14 @@ public class Statement {
 
         }else if(String.valueOf(this.operator.middle).contains(">")) {
             if (Objects.equals(this.rightArg, CONSOLE)) {
+                if(Objects.equals(this.leftArg, MEMORY)) {
+                    String buftext = "";
+                    Set<String> names = storage.getMemories().keySet();
+                    for(String name:names){
+                        buftext += storage.getMemories().get(name).toString() + "\n";
+                    }
+                    R_machine.window.getTextArea().appendText(buftext + "\n");
+                }
                 R_machine.window.getTextArea().appendText(leftArg + ": " + read(leftArg,storage.getMemories()) + "\n");
             } else if (Objects.equals(this.rightArg, FILE)) {
                 if (Objects.equals(this.leftArg, MEMORY)) {

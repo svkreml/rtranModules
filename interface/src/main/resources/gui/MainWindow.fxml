@@ -76,7 +76,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Помощь">
                      <items>
-                        <MenuItem mnemonicParsing="false" onAction="#help" text="Помощь">
+                        <MenuItem mnemonicParsing="false" onAction="#help" text="Справочник">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
