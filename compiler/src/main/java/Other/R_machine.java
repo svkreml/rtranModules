@@ -107,6 +107,16 @@ public class R_machine extends Thread implements Runnable{
             }
         }
     }
+
+    public void updateMemories(){
+        Set<String> names = this.allStorage.getStorage().memories.keySet();
+        for(String name: names){
+            if(allStorage.getStorage().memories.get(name).getType().equalsIgnoreCase("regtrue")){
+                allStorage.getStorage().memories.get(name).write(Condition.readedFromTape);
+            }
+        }
+        Condition.readedFromTape="";
+    }
     public boolean endOfAlgorythm(){
         return this.end;
     }
@@ -154,7 +164,9 @@ public class R_machine extends Thread implements Runnable{
                         e.printStackTrace();
                     }
                 }
-                if (line.compare(this.tape)) { //Если условие в данном ребре истинно...
+                if (line.compare(this.tape)) {
+                    updateMemories();
+                    //Если условие в данном ребре истинно...
                     endNumber = line.getEndArmNumber();
                     for (Statement statement : line.getStatements()) { //выполнение всех выражений (операций) , перечисленных в ребре
                         this.setCurrenntStatement(statement);
@@ -248,7 +260,9 @@ public class R_machine extends Thread implements Runnable{
             ArrayList<ArmLine> lines = firstArm.getLines();//обход ребер одной вершины ( в данном случае первой, т.е. с номером "0"
             for (ArmLine line : lines) {
                 this.currentCondition = line.getCondition();
-                if (line.compare(this.tape)) { //Если условие в данном ребре истинно...
+                if (line.compare(this.tape)) {
+                    updateMemories();
+                    //Если условие в данном ребре истинно...
                     endNumber = line.getEndArmNumber();
                     for (Statement statement : line.getStatements()) { //выполнение всех выражений (операций) , перечисленных в ребре
                         this.setCurrenntStatement(statement);
@@ -545,8 +559,8 @@ public class R_machine extends Thread implements Runnable{
 
         //Создание памятей пустыми (начальное сстояние)
         Wagon wag1 = new Wagon("LW","RW", null);
-        Register reg1 = new Register("reg1",null);
-        Register reg2 = new Register("reg2", null);
+        Register reg1 = new Register("reg1",null, false);
+        Register reg2 = new Register("reg2", null, false);
         Table table = new Table("tab"/*,new String[]{"0","1"}*/);
 
 
@@ -595,5 +609,7 @@ public class R_machine extends Thread implements Runnable{
         r_machine.run();
 
     }
+
+
 
 }

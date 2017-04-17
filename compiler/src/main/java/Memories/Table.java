@@ -169,6 +169,11 @@ public class Table implements Memory {
         return i == (this.table.size() - 1) && j == this.table.get(i).size() && this.strnumber != i && this.colnumber != j;
     }
 
+    @Override
+    public String getType() {
+        return "tab";
+    }
+
     public String toString(){
         String answer=null;
         try{

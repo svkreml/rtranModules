@@ -16,6 +16,7 @@ import java.util.Objects;
 // что задача, с одной стороны облегчается, с другой усложняется (множество вариантов проверки условия)
 
 public class Condition {
+    public static String readedFromTape = "";
     Alphabet alphabet;
     String text;
     Boolean aBoolean;
@@ -61,24 +62,36 @@ public class Condition {
         if(str.length()>tape.size()-tape.counter){
             return false;
         }
+        String buffer = "";
+        int z=0;
         for(int i = 0; i < str.length(); i++) {
+            buffer+=tape.readCurrent();
+            z++;
             if (!(str.charAt(i) == tape.read())){
+                tape.counter=tape.counter-z;
                 aBoolean = false;
                 return aBoolean;
             }
         }
+        Condition.readedFromTape+=buffer;
         aBoolean = true;
         return aBoolean;
     }
 
 //  2. 3 пункт: сравниваем ленту ввода с памятью.
     private boolean compare(Memory memory, Tape tape) {
+        String buffer = "";
+        int z=0;
         for(int i = 0; i < memory.read().length(); i++) {
+            buffer+=tape.readCurrent();
+            z++;
             if (!(memory.read().charAt(i) == tape.read())) {
+                tape.counter=tape.counter-z;
                 aBoolean = false;
                 return aBoolean;
             }
         }
+        Condition.readedFromTape+=buffer;
         aBoolean = true;
         return aBoolean;
     }
@@ -87,7 +100,7 @@ public class Condition {
     private boolean compare(Alphabet alphabet, Tape tape) {
         for (int i = 0; i < alphabet.read().length; i++) {
             if (alphabet.read()[i] == tape.readCurrent()) {
-                tape.read();
+                readedFromTape+=tape.read();
                 aBoolean = true;
                 return aBoolean;
             }

@@ -52,7 +52,8 @@ public class AlgorithmReaderNew {
                 switch (currentMemory.getAttributes().getNamedItem("type").getNodeValue()){
                     case "Register":
                         name = currentMemory.getAttributes().getNamedItem("name").getNodeValue();
-                        memoryHashMap.put(name, new Register(name,null));
+                        boolean type = new Boolean(currentMemory.getAttributes().getNamedItem("outType").getNodeValue());
+                        memoryHashMap.put(name, new Register(name,null, type));
                         break;
                     case "Counter":
                         name = currentMemory.getAttributes().getNamedItem("name").getNodeValue();

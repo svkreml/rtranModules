@@ -8,12 +8,14 @@ public class Register implements Memory {
         return rname;
     }
 
+    boolean outReg= false;
     private String rname;
     private String value;
 
-    public Register(String rname, String value) {
+    public Register(String rname, String value, boolean outReg) {
         this.rname = rname;
         this.value = value;
+        this.outReg = outReg;
     }
 
     public String getName() {
@@ -50,6 +52,11 @@ public class Register implements Memory {
     @Override
     public boolean searchFalse(String value) {
         return false;
+    }
+
+    @Override
+    public String getType() {
+        return "reg"+this.outReg;
     }
 
     boolean write(String register) {

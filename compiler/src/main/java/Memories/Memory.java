@@ -4,7 +4,7 @@ package Memories;
  * Created by Anton on 16.10.2016.
  */
 public interface Memory {
-    String type = "memory";
+    public String type = "memory";
     String read(String... args);
     boolean write(String... args);
     boolean clear();
@@ -27,4 +27,5 @@ public interface Memory {
     boolean searchTrue(String value);
 
     boolean searchFalse(String value);
+    String getType();
 }

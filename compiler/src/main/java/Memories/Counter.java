@@ -47,6 +47,11 @@ public class Counter implements Memory {
         return false;
     }
 
+    @Override
+    public String getType() {
+        return "count";
+    }
+
     boolean write(int counter) {
         this.counter = counter;
         return (this.counter != 0);

@@ -48,6 +48,11 @@ public class RealCounter implements Memory {
         return false;
     }
 
+    @Override
+    public String getType() {
+        return "realCounter";
+    }
+
     boolean write(double rcounter) {
         this.rcounter = rcounter;
         return (this.rcounter != 0.0);

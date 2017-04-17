@@ -71,6 +71,11 @@ public class Wagon implements Memory {
         return false;
     }
 
+    @Override
+    public String getType() {
+        return "wag";
+    }
+
     boolean write(String value, String name) {
         if(Objects.equals(name, this.leftname)) {
             this.value.add(0, value);
