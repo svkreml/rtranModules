@@ -416,6 +416,7 @@ public class Explorer {
             rootItem = loadFolders(directory.getParent());
         treeView.setRoot(rootItem);
         treeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateSelectedItem(newValue));
+
     }
 
     private void updateSelectedItem(Object newValue) {
@@ -508,14 +509,20 @@ public class Explorer {
         tab.setContent(new StackPane(new VirtualizedScrollPane<CodeArea>(codeArea)));
     }
 
+    public RedactorModule getRedactorModule() {
+        return redactorModule;
+    }
+
+    RedactorModule redactorModule;
     private void setRtranRedactor(MyTab tab, Path path, String name) {
         AnchorPane anchorPane = new AnchorPane();
         tab.setText(name);
         tab.setType("redactor");
-        RedactorModule redactorModule = new RedactorModule();
+        redactorModule = new RedactorModule();
         redactorModule.init(anchorPane, path.toFile());
         tab.setField(redactorModule);
         tab.setContent(new StackPane((anchorPane)));
+
     }
 
     private TreeItem<AnyInfo> loadFolders(Path file) throws IOException {

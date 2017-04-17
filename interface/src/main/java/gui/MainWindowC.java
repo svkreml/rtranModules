@@ -125,6 +125,7 @@ public class MainWindowC {
         treeController.setExplorer();
         treeController.openProject(projectDirectory.toPath());
         explorer = treeController.getExplorer();
+        //explorer
     }
 
     public void openPrLast(ActionEvent actionEvent) {
@@ -208,6 +209,7 @@ public class MainWindowC {
     }
 
     private void runM(boolean debugType) {
+        if(explorer.getRedactorModule()!=null)explorer.getRedactorModule().save();
         String lenta = null;
         String file = null;
         if (!mainApp.getProjectR().getProjFile().getRunType().equals("console")) {

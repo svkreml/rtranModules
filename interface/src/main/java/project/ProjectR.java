@@ -11,9 +11,9 @@ import java.io.IOException;
 public class ProjectR {
     ProjFile projFile;
     File root;
-    public ProjectR(File projectDirectory,boolean create) {
+    public ProjectR(File projectDirectory,boolean createNewProj) {
         if(projectDirectory.isFile()) projectDirectory=projectDirectory.getParentFile();
-        if (!create) {
+        if (!createNewProj) {
             projFile = (ProjFile) Xml.load(new File(projectDirectory,"project.rpro"), ProjFile.class);
             projFile.setPath(projectDirectory);
         } else {
