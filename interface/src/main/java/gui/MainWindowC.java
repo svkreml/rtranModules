@@ -215,7 +215,7 @@ public class MainWindowC {
         if (!mainApp.getProjectR().getProjFile().getRunType().equals("console")) {
             try {
                 lenta = Explorer.readFile(Paths.get(mainApp.getProjectR().getProjFile().getPath().toString(),mainApp.getProjectR().getProjFile().getRunType(), mainApp.getProjectR().getProjFile().getLentaPath()), Charset.defaultCharset());
-                file = String.valueOf(Paths.get(mainApp.getProjectR().getProjFile().getPath().toString(),mainApp.getProjectR().getProjFile().getRunType(), mainApp.getProjectR().getProjFile().getInputPath()));
+                file = String.valueOf(Paths.get(mainApp.getProjectR().getProjFile().getPath().toString(),"Выходные данные", mainApp.getProjectR().getProjFile().getInputPath()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
