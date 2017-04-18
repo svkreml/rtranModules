@@ -133,6 +133,7 @@ public class addNewLineController {
         operatorOptions.add("/->");
         operatorOptions.add("->/");
         operatorOptions.add("*");
+        operatorOptions.add("END");
 
         linopFieldCenter.setItems(operatorOptions);
         TextFields.bindAutoCompletion(linopFieldCenter.getEditor(), linopFieldCenter.getItems());
@@ -237,7 +238,7 @@ public class addNewLineController {
                 command.setUslovieRight(uslovieFieldRight.getValue().toString());
             }
             
-            if (linopFieldCenter.getValue().toString().equals("*")) {
+            if (linopFieldCenter.getValue().toString().equals("*") || linopFieldCenter.getValue().toString().equals("END")) {
                 command.setLinopCenter(linopFieldCenter.getValue().toString());
             } else {
                 command.setLinopLeft(linopFieldLeft.getValue().toString());
@@ -273,7 +274,8 @@ public class addNewLineController {
         boolean linopCenterNotEmpty = !(linopFieldCenter.getValue() == null || linopFieldCenter.getValue().toString().length() == 0);
         boolean linopRightNotEmpty = !(linopFieldRight.getValue() == null || linopFieldRight.getValue().toString().length() == 0);
         
-        boolean linopIsOkay = (linopLeftNotEmpty && linopCenterNotEmpty && linopRightNotEmpty) || linopFieldCenter.getValue().toString().equals("*");
+        boolean linopIsOkay = (linopLeftNotEmpty && linopCenterNotEmpty && linopRightNotEmpty) || linopFieldCenter.getValue().toString().equals("*")
+                || linopFieldCenter.getValue().toString().equals("END");
 
         if (linopIsOkay) {
             command.setFlag(Flags.OPERATOR);

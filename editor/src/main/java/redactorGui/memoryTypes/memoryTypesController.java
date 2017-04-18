@@ -166,6 +166,7 @@ public class memoryTypesController {
         int selectedIndex = memoryTypesTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             memoryTypesTable.getItems().remove(selectedIndex);
+            memoryTypesTable.refresh();
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(redactorModule.getRedactorPane().getScene().getWindow());

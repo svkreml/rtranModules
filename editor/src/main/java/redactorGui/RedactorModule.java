@@ -290,6 +290,7 @@ public class RedactorModule {
         knownOperators.add("/->");
         knownOperators.add("->/");
         knownOperators.add("*");
+        knownOperators.add("END");
 
         for(String oper : knownOperators) {
             if (linopCenter.equals(oper)) {
