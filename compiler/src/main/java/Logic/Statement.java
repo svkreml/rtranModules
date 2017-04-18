@@ -20,7 +20,7 @@ public class Statement {
     public static final String FILE = "FILE";
     public static final String CONSOLE = "CONSOLE";
     public static final String MEMORY = "MEMORY";
-    public static final String COLUMN = "COLUMN";
+    public static final String ROW = "ROW";
 //    private TextArea textArea;
 //    private TextField textField;
 
@@ -330,7 +330,12 @@ public class Statement {
                     }
                     R_machine.window.getTextArea().appendText(buftext + "\n");
                 } else {
-                    R_machine.window.getTextArea().appendText(rightArg + ": " + read(rightArg, storage.getMemories()) + "\n");
+                    if(Objects.equals(storage.getMemories().get(rightArg).getType(), "tab") || Objects.equals(storage.getMemories().get(rightArg).getType(), "wag")) {
+                        R_machine.window.getTextArea().appendText(storage.getMemories().get(rightArg).toString()+ "\n");
+                    } else {
+                        R_machine.window.getTextArea().appendText(rightArg + ": " + read(rightArg, storage.getMemories()) + "\n");
+                    }
+//                    R_machine.window.getTextArea().appendText(rightArg + ": " + read(rightArg, storage.getMemories()) + "\n");
                 }
             } else if (Objects.equals(this.leftArg, FILE)) {
                 if (Objects.equals(this.rightArg, MEMORY)) {
@@ -381,7 +386,11 @@ public class Statement {
                     }
                     R_machine.window.getTextArea().appendText(buftext + "\n");
                 } else {
-                    R_machine.window.getTextArea().appendText(leftArg + ": " + read(leftArg, storage.getMemories()) + "\n");
+                    if(Objects.equals(storage.getMemories().get(leftArg).getType(), "tab") || Objects.equals(storage.getMemories().get(leftArg).getType(), "wag")) {
+                        R_machine.window.getTextArea().appendText(storage.getMemories().get(leftArg).toString()+ "\n");
+                    } else {
+                        R_machine.window.getTextArea().appendText(leftArg + ": " + read(leftArg, storage.getMemories()) + "\n");
+                    }
                 }
             } else if (Objects.equals(this.rightArg, FILE)) {
                 if (Objects.equals(this.leftArg, MEMORY)) {
@@ -425,7 +434,7 @@ public class Statement {
             searchTrue(storage.getMemories(),leftArg,rightArg);
         } else if(String.valueOf(this.operator.middle).contains("~=")) {
             searchFalse(storage.getMemories(),leftArg,rightArg);
-        } else if(String.valueOf(this.operator.middle).contains("^=")) {
+        } else if(String.valueOf(this.operator.middle).contains("^=") && String.valueOf(this.rightArg).equals(ROW)) {
 //            String tablename = null;
 //            String index = null;
 //            for(int i = 0; i < leftArg.length(); i++) {
@@ -438,7 +447,7 @@ public class Statement {
 //            insert(storage.getMemories(),tablename,index, rightArg);
             String tablename = leftArg;
             insert(storage.getMemories(),tablename);
-        } else if(String.valueOf(this.operator.middle).contains(".=")) {
+        } else if(String.valueOf(this.operator.middle).contains(".=") && String.valueOf(this.rightArg).equals(ROW)) {
 //            String tablename = null;
 //            String index = null;
 //            for(int i = 0; i < leftArg.length(); i++) {
