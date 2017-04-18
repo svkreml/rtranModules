@@ -329,8 +329,9 @@ public class Statement {
                         buftext += storage.getMemories().get(name).toString() + "\n";
                     }
                     R_machine.window.getTextArea().appendText(buftext + "\n");
+                } else {
+                    R_machine.window.getTextArea().appendText(rightArg + ": " + read(rightArg, storage.getMemories()) + "\n");
                 }
-                R_machine.window.getTextArea().appendText(rightArg + ": " + read(rightArg,storage.getMemories()) + "\n");
             } else if (Objects.equals(this.leftArg, FILE)) {
                 if (Objects.equals(this.rightArg, MEMORY)) {
                     String buftext = "";
@@ -379,8 +380,9 @@ public class Statement {
                         buftext += storage.getMemories().get(name).toString() + "\n";
                     }
                     R_machine.window.getTextArea().appendText(buftext + "\n");
+                } else {
+                    R_machine.window.getTextArea().appendText(leftArg + ": " + read(leftArg, storage.getMemories()) + "\n");
                 }
-                R_machine.window.getTextArea().appendText(leftArg + ": " + read(leftArg,storage.getMemories()) + "\n");
             } else if (Objects.equals(this.rightArg, FILE)) {
                 if (Objects.equals(this.leftArg, MEMORY)) {
                     String buftext = "";
