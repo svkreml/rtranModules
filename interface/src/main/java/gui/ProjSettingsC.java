@@ -11,12 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import project.ProjFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Observable;
 
 /**
  * Created by svkreml on 26.02.2017.
@@ -31,7 +28,7 @@ public class ProjSettingsC {
     @FXML
     public ChoiceBox chooseFile;
     @FXML
-    public ChoiceBox chooseInputFile;
+    public ChoiceBox chooseOutputFile;
     Stage stage;
     ProjFile projFile;
 
@@ -49,7 +46,7 @@ public class ProjSettingsC {
         //checkBox.setSelected(projFile.isLenta());
         setRadio(projFile.getRunType());
         //if(projFile.getLentaPath()==null)projFile.setLentaPath("Тестовые данные");
-        setChooseInputFile();
+        setChooseOutputFile();
         if (!checkRadio().equals("console")) {
             setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\" + checkRadio());
 
@@ -112,7 +109,7 @@ public class ProjSettingsC {
     }
 
     public void setFileInput(ActionEvent actionEvent) {
-        setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\Входные данные");
+        setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\Выходные данные");
         folder = "Входные данные";
     }
 
@@ -138,9 +135,9 @@ public class ProjSettingsC {
                 chooseFile.getSelectionModel().select(s);
         }
     }
-    void setChooseInputFile() {
+    void setChooseOutputFile() {
         // if(file==null) file="Тестовые данные";
-        String file = mainApp.getProjectR().getProjFile().getPath().toString()+"\\Входные данные";
+        String file = mainApp.getProjectR().getProjFile().getPath().toString()+"\\Выходные данные";
         files = FXCollections.observableArrayList();
         //chooseInputFile.setDisable(false);
         try {
@@ -150,10 +147,10 @@ public class ProjSettingsC {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        chooseInputFile.setItems(files);
+        chooseOutputFile.setItems(files);
         for (String s : files) {
             if(s.equals(projFile.getInputPath()))
-                chooseInputFile.getSelectionModel().select(s);
+                chooseOutputFile.getSelectionModel().select(s);
         }
     }
 
@@ -166,9 +163,9 @@ public class ProjSettingsC {
     }
     String getInputPath() {
         String s;
-        if (chooseInputFile.getSelectionModel().getSelectedItem() == null) {
+        if (chooseOutputFile.getSelectionModel().getSelectedItem() == null) {
             s = "";
-        } else s = chooseInputFile.getSelectionModel().getSelectedItem().toString();
+        } else s = chooseOutputFile.getSelectionModel().getSelectedItem().toString();
         return s;
     }
 }

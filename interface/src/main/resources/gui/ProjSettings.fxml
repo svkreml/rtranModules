@@ -30,7 +30,7 @@
       <RadioButton fx:id="radioTestRun" layoutX="21.0" layoutY="85.0" mnemonicParsing="false" onAction="#setFileTest" text="Тестовый запуск" toggleGroup="$radio" />
       <ChoiceBox fx:id="chooseFile" layoutX="120.0" layoutY="137.0" prefWidth="150.0" />
       <Label layoutX="21.0" layoutY="141.0" text="Лента" />
-      <Label layoutX="24.0" layoutY="183.0" text="Входной файл" />
-      <ChoiceBox fx:id="chooseInputFile" layoutX="120.0" layoutY="179.0" prefWidth="150.0" />
+      <Label layoutX="24.0" layoutY="183.0" text="Выходной файл" />
+      <ChoiceBox fx:id="chooseOutputFile" layoutX="120.0" layoutY="179.0" prefWidth="150.0" />
    </children>
 </AnchorPane>
