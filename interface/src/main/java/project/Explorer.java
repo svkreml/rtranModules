@@ -466,6 +466,8 @@ public class Explorer {
                 try {
                     if (newTreeItem.getValue() instanceof ProgramInfo)
                         setRtranRedactor(myTab, ((FileInfo) newTreeItem.getValue()).getPath(), file.getName());
+                    else if(newTreeItem.getValue() instanceof SettingsInfo)
+                    {myTab.setContent(new Label("Nope"));}
                     else
                         setText(myTab, readFile(((FileInfo) newTreeItem.getValue()).getPath(), Charset.defaultCharset()), file.getName());
                 } catch (IOException e) {
