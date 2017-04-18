@@ -241,8 +241,8 @@ public class RedactorModule {
                     memory.add(new Memory("Register", record.getName(), record.getOutType()));
                     break;
                 case "Вагон":
-                    String lv = record.getName().split(" | ")[0];
-                    String pv = record.getName().split(" | ")[2];
+                    String lv = record.getName().split("\\*")[0];
+                    String pv = record.getName().split("\\*")[1];
                     memory.add(new Memory("Wagon", lv, pv));
                     break;
                 case "Таблица":

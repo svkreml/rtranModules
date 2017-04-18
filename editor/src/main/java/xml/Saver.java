@@ -1,5 +1,6 @@
 package xml;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import javafx.scene.control.Alert;
@@ -35,6 +36,7 @@ public class Saver {
             JacksonXmlModule module = new JacksonXmlModule();
             module.setDefaultUseWrapper(false);
             XmlMapper xmlMapper = new XmlMapper(module);
+            xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
             try {
                 xmlMapper.writeValue(destination, r_pro);
                 Alert successWindow = new Alert(Alert.AlertType.CONFIRMATION);
@@ -62,6 +64,7 @@ public class Saver {
         JacksonXmlModule module = new JacksonXmlModule();
         module.setDefaultUseWrapper(false);
         XmlMapper xmlMapper = new XmlMapper(module);
+        xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
         try {
             xmlMapper.writeValue(knownDestination, r_pro);
             Alert successWindow = new Alert(Alert.AlertType.CONFIRMATION);

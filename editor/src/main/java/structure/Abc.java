@@ -11,6 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
  */
 
 //@Value.Immutable
+//@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "abc")
 public class Abc {
@@ -38,6 +39,10 @@ public class Abc {
 
     public String getContents() {
         return contents;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
     }
 
     @JacksonXmlProperty

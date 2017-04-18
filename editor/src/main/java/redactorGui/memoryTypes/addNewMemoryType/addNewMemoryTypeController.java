@@ -105,8 +105,8 @@ public class addNewMemoryTypeController {
         this.memoryRecord = memoryRecord;
         typeChoiceBox.setValue(memoryRecord.getType());
         if (typeChoiceBox.getValue().toString().equals("Вагон")) {
-            lv.setText(memoryRecord.getName().split(" | ")[0]);
-            pv.setText(memoryRecord.getName().split(" | ")[2]);
+            lv.setText(memoryRecord.getName().split("\\*")[0]);
+            pv.setText(memoryRecord.getName().split("\\*")[1]);
         } else {
             nameField.setText(memoryRecord.getName());
         }
@@ -133,7 +133,7 @@ public class addNewMemoryTypeController {
             memoryRecord.setType(typeChoiceBox.getValue().toString());
             memoryRecord.setComments(commentsArea.getText());
             if (memoryRecord.getType().equals("Вагон")) {
-                String wagonName = lv.getText() + " | " + pv.getText();
+                String wagonName = lv.getText() + "*" + pv.getText();
                 memoryRecord.setName(wagonName);
             } else {
                 memoryRecord.setName(nameField.getText());

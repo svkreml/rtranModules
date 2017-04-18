@@ -77,8 +77,9 @@ public class addNewLineController {
 
         for (memoryTypeRecord record : redactorModule.getMemoryTypesData()) {
             if (record.getType().equals("Вагон")) {
-                memoryOptions.add(record.getName().split(" | ")[0]);
-                memoryOptions.add(record.getName().split(" | ")[2]);
+                memoryOptions.add(record.getName().split("\\*")[0]);
+                memoryOptions.add(record.getName().split("\\*")[1]);
+                memoryOptions.add(record.getName());
             } else {
                 memoryOptions.add(record.getName());
             }

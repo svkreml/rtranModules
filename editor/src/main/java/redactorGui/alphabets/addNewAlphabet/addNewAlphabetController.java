@@ -72,6 +72,9 @@ public class addNewAlphabetController {
         shortNameField.setText(alphabet.getShortName());
         valuesField.setText(alphabet.getValues());
         commentsArea.setText(alphabet.getComments());
+//        if (alphabet.getValues().equals(" ")) {
+//            valuesField.setText(" ");
+//        }
     }
 
     public void setCheckUniqueness(boolean checkUniqueness) {

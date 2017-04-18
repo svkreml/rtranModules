@@ -7,6 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import structure.Abc;
 import structure.R_pro;
 
 import java.io.*;
@@ -53,6 +54,10 @@ public class Loader {
                 BufferedReader buffer = new BufferedReader(new FileReader(location));
                 String program = buffer.lines().collect(Collectors.joining());
                 readed = xmlMapper.readValue(program, R_pro.class);
+
+                for (Abc abc : readed.getDescriptive_part().getAlphabet().getAbc()) {
+                    if (abc.getContents() == null) abc.setContents(" ");
+                }
             } catch (IOException e) {
 
                 if (e.getCause().getClass().equals(WstxUnexpectedCharException.class)) {

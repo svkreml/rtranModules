@@ -132,7 +132,7 @@ public class RedactorModuleController {
                         break;
                     case "Wagon":
                         record.setType("Вагон");
-                        record.setName(String.format("%s | %s", memory.getLeftName(), memory.getRightName()));
+                        record.setName(String.format("%s*%s", memory.getLeftName(), memory.getRightName()));
                         break;
                     case "Table":
                         record.setType("Таблица");
