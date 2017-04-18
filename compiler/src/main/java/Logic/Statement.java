@@ -70,6 +70,8 @@ public class Statement {
                 return new Operator(chars[0],(""+chars[1]+chars[2]).toCharArray(),chars[3]);
             case (2):
                 return new Operator(chars);
+            case(1):
+                return new Operator(chars[0]);
             default:
                 return null;
 
@@ -109,6 +111,11 @@ public class Statement {
         public Operator(char[] ch2){
             left = ' ';
             middle = ch2;
+            right=' ';
+        }
+        public Operator(char ch2){
+            left = ' ';
+            middle = new char[ch2];
             right=' ';
         }
         public String toString(){
@@ -310,6 +317,9 @@ public class Statement {
     }
 
     public synchronized void doStatement(Storage storage, Tape tape) throws InterruptedException {
+        if(String.valueOf(this.operator.middle).contains("*")){
+            return;
+        }
         if(String.valueOf(this.operator.middle).contains("<")){
             if(Objects.equals(this.leftArg, CONSOLE)) {
                 if(Objects.equals(this.rightArg, MEMORY)) {
