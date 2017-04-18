@@ -279,6 +279,8 @@ public class Explorer {
         } else if (tab.getType().equals("redactor")) {
             RedactorModule redactorModule = (RedactorModule) tab.getField();
             redactorModule.save();
+        } else{
+            System.out.println("you called for help but nobody came...");
         }
     }
 
@@ -467,7 +469,8 @@ public class Explorer {
                     if (newTreeItem.getValue() instanceof ProgramInfo)
                         setRtranRedactor(myTab, ((FileInfo) newTreeItem.getValue()).getPath(), file.getName());
                     else if(newTreeItem.getValue() instanceof SettingsInfo)
-                    {myTab.setContent(new Label("Nope"));}
+                    {myTab.setText("Настройки проекта");
+                        myTab.setContent(new Label("Данный файл редактируется из настроек проекта."));}
                     else
                         setText(myTab, readFile(((FileInfo) newTreeItem.getValue()).getPath(), Charset.defaultCharset()), file.getName());
                 } catch (IOException e) {
