@@ -56,7 +56,7 @@ public class MainApp extends Application {
 
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("R_tran");
+        this.primaryStage.setTitle("[R]IDE");
         initMainWindow();
         initTree();
     }
@@ -70,7 +70,7 @@ public class MainApp extends Application {
             MainWindowC controller = loader.getController();
             controller.setMainApp(this);
             setMainWindowC(controller);
-            Image ico = new Image("icons/ic_add_circle_black_48dp_1x.png");
+            Image ico = new Image("ico/[R]IDE 256x256.png");
             primaryStage.getIcons().add(ico);
             scene.getStylesheets().add(MainApp.class.getResource("xml-highlighting.css").toExternalForm());
             primaryStage.setScene(scene);

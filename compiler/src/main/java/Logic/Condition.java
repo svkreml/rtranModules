@@ -59,7 +59,7 @@ public class Condition {
             aBoolean = true;
             return aBoolean;
         }
-        if(str.length()>tape.size()-tape.counter){
+        if(str.length()>(tape.size())){
             return false;
         }
         String buffer = "";
@@ -98,13 +98,15 @@ public class Condition {
 
 //  3. Предикат синтерм: сверка текущего символа входной ленты с любым символом данного алфавита
     private boolean compare(Alphabet alphabet, Tape tape) {
-        for (int i = 0; i < alphabet.read().length; i++) {
+        int i=0;
+        for (i = 0; i < alphabet.read().length; i++) {
             if (alphabet.read()[i] == tape.readCurrent()) {
                 readedFromTape+=tape.read();
                 aBoolean = true;
                 return aBoolean;
             }
         }
+//        tape.counter=tape.counter-1;
         aBoolean = false;
         return aBoolean;
     }
