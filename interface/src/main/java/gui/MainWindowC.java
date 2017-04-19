@@ -1,6 +1,7 @@
 package gui;
 
 import Other.StarterMain;
+import com.google.common.io.Resources;
 import gui.help.HelpWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextFlow;
@@ -160,7 +163,9 @@ public class MainWindowC {
     public void about(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("О программе");
-        alert.setHeaderText("R-tran Редактор");
+        alert.setHeaderText("[R]IDE" + "\n" + "Интегрированная среда разработки" + "\n" + "программ на языке R-машины");
+        Image ico = new Image("ico/[R]IDE 256x256.png");
+        alert.setGraphic(new ImageView(ico));
         alert.setContentText("версия 1.0.0\nИВБО-03-13 МИРЭА кафедра ВОСХОД");
         alert.showAndWait();
     }
