@@ -193,8 +193,14 @@ public class DebuggerWindow extends Application{
 		Tape tape = r_machine.getTape();
 		String tapeString = tape.toString();
 		int number=tape.counter;
-		return tapeString.substring(0,number)+"["+tapeString.charAt(number)+"]"+tapeString.substring(number+1,tapeString.length());
-	}
+		String answer;
+		try {
+			answer=tapeString.substring(0, number) + "[" + tapeString.charAt(number) + "]" + tapeString.substring(number + 1, tapeString.length());
+		}catch (StringIndexOutOfBoundsException e){
+			answer=tapeString+"[]";
+		}
+		return answer;
+		}
 //	@Override
 //	public void run() {
 //		launch(DebuggerWindow.class);
