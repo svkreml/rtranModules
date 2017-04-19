@@ -297,9 +297,9 @@ public class RedactorModule {
                 left = new Left(linopLeft);
                 operator = oper;
 
-                // Правая часть (содержащая выражение) не будет содержать в себе пробелов:
+                // Правая часть (содержащая выражение) будет содержать в себе пробелы:
 
-                right = new Right(StringUtils.remove(linopRight, " "));
+                right = new Right(linopRight);
                 operation = new Operation(left, operator, right);
                 return operation;
             }
