@@ -239,7 +239,9 @@ public class addNewLineController {
             }
             
             if (linopFieldCenter.getValue().toString().equals("*") || linopFieldCenter.getValue().toString().equals("END")) {
+                command.setLinopLeft("");
                 command.setLinopCenter(linopFieldCenter.getValue().toString());
+                command.setLinopRight("");
             } else {
                 command.setLinopLeft(linopFieldLeft.getValue().toString());
                 command.setLinopCenter(linopFieldCenter.getValue().toString());
