@@ -69,7 +69,11 @@ public class Explorer {
         //-----------------------------
         treeView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
-                showMenu(treeView, event);
+                try {
+                    showMenu(treeView, event);
+                }catch (NullPointerException e){
+                    System.out.println("Ахтунг");
+                }
             }
         });
         treeView.setEditable(true);
@@ -336,6 +340,10 @@ public class Explorer {
         itemDelete.setOnAction(e -> {
             deleteBranch(current);
         });
+        itemEdit.setDisable(current.getParent() == null);
+        itemEdit.setDisable(current.getValue().getPath().equals(rootItem.getValue().getPath().getParent()));
+        itemEdit.setDisable(current.getParent().getValue().getPath().equals(rootItem.getValue().getPath()));
+
         itemDelete.setDisable(current.getParent() == null);
         itemDelete.setDisable(current.getValue().getPath().equals(rootItem.getValue().getPath().getParent()));
         itemDelete.setDisable(current.getParent().getValue().getPath().equals(rootItem.getValue().getPath()));
@@ -372,7 +380,7 @@ public class Explorer {
         try {
             Files.createFile(Paths.get(current.getValue().getPath().toString(), "Новый файл"));
         } catch (IOException e1) {
-            e1.printStackTrace();
+            //e1.printStackTrace();
             return;
         }
         TreeItem<AnyInfo> fileItem = new TreeItem<>(new FileInfo("Новый файл", Paths.get(current.getValue().getPath().toString(), "Новый файл")), new ImageView(fileImage));
@@ -386,7 +394,7 @@ public class Explorer {
         try {
             Files.createDirectory(Paths.get(path.toString(), "Новая папка"));
         } catch (IOException e1) {
-            e1.printStackTrace();
+            //e1.printStackTrace();
             return;
         }
         insert(current, folderItem);
