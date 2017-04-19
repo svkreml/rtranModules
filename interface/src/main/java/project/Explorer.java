@@ -543,15 +543,19 @@ public class Explorer {
             TreeItem<AnyInfo> folder = new TreeItem<>(new FolderInfo(file.getFileName().toString(), file.toAbsolutePath()), new ImageView(folderImage));
             Files.list(file).forEach(path -> {
                 try {
+                    TreeItem<AnyInfo> ch = loadFolders(path);
+                    if(ch!=null)
                     folder.getChildren().add(loadFolders(path));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
+                }catch (NullPointerException e){
+
                 }
             });
             sortChildren(folder);
             return folder;
         } else if (file.getFileName().toString().endsWith(".rpro")) {
-            return new TreeItem<>(new SettingsInfo(file.getFileName().toString(), file.toAbsolutePath()), new ImageView(settingsImage));
+            return null;
         } else if (file.getFileName().toString().endsWith(".rtran")) {
             return new TreeItem<>(new ProgramInfo(file.getFileName().toString(), file.toAbsolutePath()), new ImageView(programImage));
         } else {
