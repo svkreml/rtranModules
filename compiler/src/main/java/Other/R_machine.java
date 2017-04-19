@@ -129,6 +129,7 @@ public class R_machine extends Thread implements Runnable{
 
     }
     public  void mainWork() throws InterruptedException {
+        this.end = false;
         loop:while (true) {
             this.currenntStatement = null;
             this.currentCondition = null;
@@ -177,17 +178,17 @@ public class R_machine extends Thread implements Runnable{
                                 e.printStackTrace();
                             }
                         }
-                        statement.doStatement(storage, tape);
+                        this.end = statement.doStatement(storage, tape);
                     }
                     this.currenntStatement = null;
                     this.currentCondition = null;
                     char tapeCurrent = this.tape.readCurrent();
-                    if (tapeCurrent == '#') {
+                    if (this.end) {
                         Set<String> names = this.allStorage.storage.getMemories().keySet();
                         for (String name : names) {
                             System.out.println(this.allStorage.storage.getMemories().get(name));
                         }
-                        this.end = true;
+//                        this.end = true;
                         try {
                             continueWork();
                         } catch (InterruptedException e) {
@@ -232,6 +233,7 @@ public class R_machine extends Thread implements Runnable{
      * @throws InterruptedException
      */
     public synchronized String simpleRun(ProgramWindow window, String file, Stage stage) throws InterruptedException {
+        this.end = false;
         this.window = window;
         this.stage = stage;
         this.file = file;
@@ -266,12 +268,12 @@ public class R_machine extends Thread implements Runnable{
                     endNumber = line.getEndArmNumber();
                     for (Statement statement : line.getStatements()) { //выполнение всех выражений (операций) , перечисленных в ребре
                         this.setCurrenntStatement(statement);
-                        statement.doStatement(storage, tape);
+                        this.end = statement.doStatement(storage, tape);
                     }
                     this.currenntStatement = null;
                     this.currentCondition = null;
-                    char tapeCurrent = this.tape.readCurrent();
-                    if (tapeCurrent == '#') {
+//                    char tapeCurrent = this.tape.readCurrent();
+                    if (this.end) {
                         Set<String> names = this.allStorage.storage.getMemories().keySet();
                         for (String name : names) {
                             System.out.println(this.allStorage.storage.getMemories().get(name));
@@ -295,6 +297,7 @@ public class R_machine extends Thread implements Runnable{
         }
     }
     public synchronized String simpleRun(TextArea textArea) throws InterruptedException {
+        this.end = false;
         loop:while (true) {
             this.currenntStatement = null;
             this.currentCondition = null;
@@ -322,17 +325,17 @@ public class R_machine extends Thread implements Runnable{
                     endNumber = line.getEndArmNumber();
                     for (Statement statement : line.getStatements()) { //выполнение всех выражений (операций) , перечисленных в ребре
                         this.setCurrenntStatement(statement);
-                        statement.doStatement(storage, tape);
+                        this.end = statement.doStatement(storage, tape);
                     }
                     this.currenntStatement = null;
                     this.currentCondition = null;
                     char tapeCurrent = this.tape.readCurrent();
-                    if (tapeCurrent == '#') {
+                    if (this.end) {
                         Set<String> names = this.allStorage.storage.getMemories().keySet();
                         for (String name : names) {
                             System.out.println(this.allStorage.storage.getMemories().get(name));
                         }
-                        this.end = true;
+//                        this.end = true;
                     } else {
                         this.setCurrentNumber(endNumber);
                     }

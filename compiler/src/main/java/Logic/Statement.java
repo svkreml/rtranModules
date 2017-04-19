@@ -21,6 +21,7 @@ public class Statement {
     public static final String CONSOLE = "CONSOLE";
     public static final String MEMORY = "MEMORY";
     public static final String ROW = "ROW";
+    public static final String END = "END";
 //    private TextArea textArea;
 //    private TextField textField;
 
@@ -316,9 +317,9 @@ public class Statement {
         this.rightArg = rightArg;
     }
 
-    public synchronized void doStatement(Storage storage, Tape tape) throws InterruptedException {
+    public synchronized boolean doStatement(Storage storage, Tape tape) throws InterruptedException {
         if(String.valueOf(this.operator.middle).contains("*")){
-            return;
+            return false;
         }
         if(String.valueOf(this.operator.middle).contains("<")){
             if(Objects.equals(this.leftArg, CONSOLE)) {
@@ -375,7 +376,7 @@ public class Statement {
                     clear(this.rightArg,storage.getMemories());
                 }
             }
-
+            return false;
         }else if(String.valueOf(this.operator.middle).contains(">")) {
             if (Objects.equals(this.rightArg, CONSOLE)) {
                 if(Objects.equals(this.leftArg, MEMORY)) {
@@ -430,10 +431,13 @@ public class Statement {
                     clear(leftArg,storage.getMemories());
                 }
             }
+            return false;
         } else if(String.valueOf(this.operator.middle).contains("&=")) {
             searchTrue(storage.getMemories(),leftArg,rightArg);
+            return false;
         } else if(String.valueOf(this.operator.middle).contains("~=")) {
             searchFalse(storage.getMemories(),leftArg,rightArg);
+            return false;
         } else if(String.valueOf(this.operator.middle).contains("^=") && String.valueOf(this.rightArg).equals(ROW)) {
 //            String tablename = null;
 //            String index = null;
@@ -447,6 +451,7 @@ public class Statement {
 //            insert(storage.getMemories(),tablename,index, rightArg);
             String tablename = leftArg;
             insert(storage.getMemories(),tablename);
+            return false;
         } else if(String.valueOf(this.operator.middle).contains(".=") && String.valueOf(this.rightArg).equals(ROW)) {
 //            String tablename = null;
 //            String index = null;
@@ -460,6 +465,9 @@ public class Statement {
 //            add(storage.getMemories(),tablename,index, rightArg);
             String tablename = leftArg;
             add(storage.getMemories(),tablename);
+            return false;
+        } else if(String.valueOf(this.operator).contains(END)) {
+            return true;
         }
 //        else if(String.valueOf(this.operator.middle).contains(":=") && String.valueOf(this.rightArg).equals(COLUMN)) {
 //            String tablename = leftArg;
@@ -468,6 +476,7 @@ public class Statement {
 //            String tablename = leftArg;
 //            insert(storage.getMemories(),tablename);
 //        }
+        return false;
     }
     //    }
     public String toString(){
