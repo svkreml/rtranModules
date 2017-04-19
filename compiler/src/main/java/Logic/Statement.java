@@ -370,7 +370,7 @@ public class Statement {
                     });
 
                 } else {
-                    write(this.leftArg, Processor.count(rightArg, storage.getMemories()), storage.getMemories());
+                    write(this.leftArg, Processor.count(leftArg, rightArg, storage.getMemories()), storage.getMemories());
                 }
                 if(this.operator.right.equals('/')){
                     clear(this.rightArg,storage.getMemories());
@@ -425,7 +425,7 @@ public class Statement {
                     });
                     Thread.currentThread().wait();
                 } else {
-                    write(rightArg, Processor.count(leftArg, storage.getMemories()), storage.getMemories());
+                    write(rightArg, Processor.count(rightArg, leftArg, storage.getMemories()), storage.getMemories());
                 }
                 if(this.operator.left.equals('/')){
                     clear(leftArg,storage.getMemories());

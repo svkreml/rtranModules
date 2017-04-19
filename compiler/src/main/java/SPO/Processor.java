@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by user on 28.03.2016.
  */
 public class Processor {
-    public static String count(String str, HashMap<String,Memory> memories) {
+    public static String count(String memory, String str, HashMap<String,Memory> memories) {
 
 //        Scanner s=new Scanner(System.in);
 //        String str = s.nextLine();
@@ -36,15 +36,18 @@ public class Processor {
                 return memories.get(key).read(str);
             }
         }
-        if(str.contains("+")||str.contains("-")||str.contains("*")||str.contains("/")) {
-            Lexer lex = new Lexer(str);
-            ArrayList<Token> tokens = lex.strToTokens(memories);
-            Parser parser = new Parser(tokens);
-            ExprNode e = parser.expression();
-            WalkTree walkTree = new WalkTree();
-            walkTree.walkTree(e);
-
-            return Integer.toString(walkTree.calcTree(e));
+        if((str.contains("+")||str.contains("-")||str.contains("*")||str.contains("/"))) {
+            if(memories.get(memory) != null) {
+                if(Objects.equals(memories.get(memory).getType(), "count")) {
+                    Lexer lex = new Lexer(str);
+                    ArrayList<Token> tokens = lex.strToTokens(memories);
+                    Parser parser = new Parser(tokens);
+                    ExprNode e = parser.expression();
+                    WalkTree walkTree = new WalkTree();
+                    walkTree.walkTree(e);
+                    return Integer.toString(walkTree.calcTree(e));
+                }
+            }
         }
         return str;
     }
