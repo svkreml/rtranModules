@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -69,6 +70,8 @@ public class MainApp extends Application {
             MainWindowC controller = loader.getController();
             controller.setMainApp(this);
             setMainWindowC(controller);
+            Image ico = new Image("icons/ic_add_circle_black_48dp_1x.png");
+            primaryStage.getIcons().add(ico);
             scene.getStylesheets().add(MainApp.class.getResource("xml-highlighting.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
