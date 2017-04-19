@@ -109,7 +109,7 @@ public class ProjSettingsC {
     }
 
     public void setFileInput(ActionEvent actionEvent) {
-        setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\Выходные данные");
+        setChooseFile(mainApp.getProjectR().getProjFile().getPath().toString() + "\\Входные данные");
         folder = "Входные данные";
     }
 
