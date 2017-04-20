@@ -51,8 +51,9 @@ public class Loader {
             module.setDefaultUseWrapper(false);
             XmlMapper xmlMapper = new XmlMapper(module);
             try {
-                BufferedReader buffer = new BufferedReader(new FileReader(location));
-                String program = buffer.lines().collect(Collectors.joining());
+//                BufferedReader buffer = new BufferedReader(new FileReader(location));
+//                String program = buffer.lines().collect(Collectors.joining());
+                String program = readFile(location.toPath(), Charset.defaultCharset());
                 readed = xmlMapper.readValue(program, R_pro.class);
 
                 for (Abc abc : readed.getDescriptive_part().getAlphabet().getAbc()) {

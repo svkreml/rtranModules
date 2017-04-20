@@ -5,3 +5,4 @@ rem set DUMP=-Dcom.sun.xml.ws.transport.http.HttpAdapter.dump=true
 rem -Dlogback.configurationFile=/path/to/config.xml
 
 %JAVA% -jar target/single.jar
+pause

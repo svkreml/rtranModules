@@ -23,6 +23,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
     <dependencies>
@@ -60,6 +61,7 @@
             <artifactId>richtextfx</artifactId>
             <version>0.7-M1</version>
         </dependency>
+
     </dependencies>
 
 </project>
