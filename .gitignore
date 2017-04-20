@@ -2,3 +2,6 @@
 target
 *.iml
 interface/dependency-reduced-pom.xml
+interface/last.prop
+interface/project.rpro
+interface/program.rtran

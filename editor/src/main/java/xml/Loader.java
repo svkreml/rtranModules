@@ -53,7 +53,7 @@ public class Loader {
             try {
 //                BufferedReader buffer = new BufferedReader(new FileReader(location));
 //                String program = buffer.lines().collect(Collectors.joining());
-                String program = readFile(location.toPath(), Charset.defaultCharset());
+                String program = readFile(location.toPath(), Charset.forName("UTF-8"));
                 readed = xmlMapper.readValue(program, R_pro.class);
 
                 for (Abc abc : readed.getDescriptive_part().getAlphabet().getAbc()) {
